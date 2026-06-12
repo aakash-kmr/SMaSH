@@ -5,11 +5,7 @@
 
 
 (* ::Input::Initialization:: *)
-MI[X_,\[Mu]_]:=If[IfP[\[Mu]],ToExpression[ToString[X]<>ToString[SignOf[\[Mu]]\[Mu]]], 
-					ToExpression[ToString[X]<>"m"<>ToString[SignOf[\[Mu]]\[Mu]]]
-];
 
-Protect[MI];
 
 PickPosition[X_,a_]:=ToExpression[StringTake[ToString[X],a],StandardForm];
 

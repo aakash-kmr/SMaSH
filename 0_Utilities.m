@@ -4,7 +4,7 @@
 (*Variables*)
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*IfP, IfN, SignOf, MinusSign*)
 
 
@@ -98,6 +98,13 @@ SetCounterZero[];
 (*Make Index*)
 
 
+MI[X_,\[Mu]_]:=If[IfP[\[Mu]],ToExpression["Global`"<>ToString[X]<>ToString[SignOf[\[Mu]]\[Mu]]], 
+					ToExpression["Global`"<>ToString[X]<>"m"<>ToString[SignOf[\[Mu]]\[Mu]]]
+];
+
+Protect[MI];
+
+
 (* ::Input::Initialization:: *)
 OPS[A_,B_]:=OrderlessPatternSequence[A,B];
 MIL[list_List]:=ToExpression[StringJoin@Map[ToString,list]];
@@ -109,7 +116,7 @@ MIL2[list_List]:=StringJoin@Map[ToString,list];
 LIndex[Head_,range_]:=Map[MIL[{Head,#}]&,Range[1,range]]
 
 
-(* ::Chapter::Closed:: *)
+(* ::Chapter:: *)
 (*Make Rule*)
 
 
@@ -147,15 +154,15 @@ RepeatedRule[rule_][expr_]:=FixedPoint[rule[Expand[#]]&,expr];
 RepeatedRule[rule_List][expr_]:=FixedPoint[Composition[Sequence@@Join[rule,{Expand}]][#]&,expr];
 
 
-(* ::Chapter::Closed:: *)
+(* ::Chapter:: *)
 (*Kinematics*)
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Declare Massive and Massless*)
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Default Associations*)
 
 
@@ -197,11 +204,11 @@ MasslessFieldStrength[leg_]:=Lookup[MasslessFieldStrengthsThread,leg]
 
 
 (* ::Input::Initialization:: *)
-Leg[mom_]:=Lookup[Reverse/@Normal[Join[MasslessMomentaThread,MassiveMomentaThread]],mom]
-Momenta[leg_]:=Lookup[Join[MasslessMomentaThread,MassiveMomentaThread],leg]
+Leg[mom_]:=Lookup[Reverse/@Join[Normal@MasslessMomentaThread,Normal@MassiveMomentaThread],mom]
+Momenta[leg_]:=Lookup[Join[Normal@MasslessMomentaThread,Normal@MassiveMomentaThread],leg]
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Edit Data*)
 
 
@@ -276,7 +283,7 @@ colmn
 ];
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Add and Remove Data*)
 
 
@@ -320,7 +327,7 @@ EditMasslessData[];
 ];
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Declare and Undeclare Legs*)
 
 
@@ -346,7 +353,7 @@ UndeclareMasslessLegs=RemoveMasslessData;
 UndeclareLegs[MassiveLegs_List:{}][MasslessLegs_List:{}]:=(UndeclareMassiveLegs[MassiveLegs];UndeclareMasslessLegs[MasslessLegs];)
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Add and Remove Assumptions*)
 
 
@@ -450,7 +457,7 @@ AllRealMassiveLegs[]=Select[AllRealLegs[],MsQ];
 (*Utilities*)
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Mom*)
 
 
@@ -856,7 +863,7 @@ $Post=(PutCanonicalIndices[#])&;
 ];
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Symmetrized*)
 
 
