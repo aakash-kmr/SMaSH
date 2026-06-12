@@ -11,7 +11,7 @@ SMaSH (Simplifying Massive Spinor Helicity) is a Mathematica package to do massi
 6. Three point amplitudes for any masses and spins
 7. Higher spin propagators
 8. Mandelstam simplifications
-9. Finding contact terms and manifesting gauge invariance
+9. Finding contact terms and manifesting gauge invariance 
 
 
 # Download
