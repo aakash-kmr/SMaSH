@@ -28,6 +28,11 @@ Print["Aakash Kumar, aakash.kumar.physics@gmail.com"]
 Print["Arnab Rudra, rudra19@iiserb.ac.in"]
 Print["Rahul Shaw, rahulshaw.phy@gmail.com"]
 
+Print["GNU GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc."]
+
 
 End[];
 
