@@ -2,7 +2,7 @@
 SMaSH (Simplifying Massive Spinor Helicity) is a Mathematica package to do massive helicity computations.
 
 
-# features
+# Features
 1. Explicit handling of massive little group indices
 2. Contraction of spinor and little group indices
 3. Spinor derivatives, massive & massless helicity scaling operators
