@@ -11,7 +11,7 @@ SMaSH (Simplifying Massive Spinor Helicity) is a Mathematica package to do massi
 6. Three point amplitudes for any masses and spins
 7. Higher spin propagators
 8. Mandelstam simplifications
-9. Finding contact terms and manifesting gauge invariance 
+9. Finding contact terms and manifesting gauge invariance
 
 
 # Download
@@ -28,7 +28,7 @@ The package can be installed using any one of the following ways.
 
 2. To manually install the package, first download the .zip file. Get the user base directory by running "\$UserBaseDirectory" and then extract the .zip file in the folder "\$UserBaseDirectory\Applications". Then load the package by running "<<SMaSH`".
 
-3. To load the package for a particular notebook, download the .zip file and extract it in any folder. After extracting, open the Mathematica notebook and paste the address of the folder within the command SetDirectory. For example, if the package is extracted in the folder "MyPackages" whose complete address is "C:Users$\backslash$HP$\backslash$Downloads$\backslash$MyPackages" then simply run "SetDirectory["C:Users$\backslash$HP$\backslash$Downloads$\backslash$MyPackages"]".
+3. To load the package for a particular notebook, download the .zip file and extract it in any folder. After extracting, open the Mathematica notebook and paste the address of the folder within the command SetDirectory. For example, if the package is extracted in the folder "MyPackages" whose complete address is "C:Users\HP\Downloads\MyPackages" then simply run "SetDirectory["C:Users\HP\Downloads\MyPackages"]" and then run "<<SMaSH`".
 
 
 # Documentation
