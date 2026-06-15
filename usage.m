@@ -1,11 +1,42 @@
 (* ::Package:: *)
 
 (* ::Section:: *)
+(*Make Index*)
+
+
+MI[X_,\[Mu]_]:=If[IfP[\[Mu]],ToExpression["Global`"<>ToString[X]<>ToString[SignOf[\[Mu]]\[Mu]]], 
+					ToExpression["Global`"<>ToString[X]<>"m"<>ToString[SignOf[\[Mu]]\[Mu]]]
+];
+
+Protect[MI];
+
+
+(* ::Input::Initialization:: *)
+OPS[A_,B_]:=OrderlessPatternSequence[A,B];
+MIL[list_List]:=ToExpression[StringJoin@Map[ToString,list]];
+MIL[pref_,n__]:=Table[If[IfN[pref],-MI[-pref,i],MI[pref,i]],{i,n}]
+MIL2[list_List]:=StringJoin@Map[ToString,list];
+
+
+(* ::Input::Initialization:: *)
+LIndex[Head_,range_]:=Map[MIL[{Head,#}]&,Range[1,range]]
+
+
+(* ::Section:: *)
 (*$SMaSHFunctions*)
 
 
 (* ::Input::Initialization:: *)
-$SMaSHFunctions={"AddAssumptions","AllIndepedentMandelstam","AllLegs","AllMandelstam","AllMassiveLegs","AllMassiveMomenta","AllMassivePolarizations","AllMasslessFieldStrengths","AllMasslessHelicities","AllMasslessLegs","AllMasslessMomenta","AllMasslessPolarizations","AllMasslessReferenceSpinors","AllMomenta","B","BaseHead","CanonicalizeIndices","CanonicalizeScalars","CanonicalizeSU2LRScalars","CanonicalizeSU2LScalars","CanonicalizeSU2RScalars","CanonicalizeTerms","CartesianCoordinates","ChargeConjugate","CheckOnShell","ClearAssumptions","ClearMomentumConservation","ClearNumerics","COM","ComplexConjugate","ComplexifyNumerics","ComponentForm","ComponentNumerics","ComptonCOMFrame","COMrules","ContractLorMetric","ContractMetric","ContractSU2LGMetric","ContractSU2LMetric","ContractSU2RMetric","ConvertLortoSH","ConvertMettoSH","ConvertMlFStoSH","ConvertMlPoltoSH","ConvertMomtoSH","ConvertMsPoltoSH","Coupling","CPT","DeclareLegs","DeclareMassiveLegs","DeclareMasslessLegs","DeclareMomentumConservation","DecomposetoSU2Basis","Decompose\[Lambda]to\[Chi]","Dirac\[CapitalPsi]","DressMom","DressSH","EditMassiveData","EditMasslessData","epsilon\[Eta]","FGProjector","FGPropagator","FG\[CapitalTheta]","FindBasis","FindContactTerm","GenerateNumerics","Helicity","HighEnergyLimit","HigherSpinDiff","HigherSpinDiffA","HigherSpinDiffB","HsPol","IfN","IfP","ImposeReality","k","Leg","LorToMandelstam","m","MandelstamRules","MandelstamtoLor","MandelstamtoSH","ManifestGI","MassConditions","MassiveData","MassiveMomenta","MassivePolarization","MassiveQ","MasslessData","MasslessFieldStrength","MasslessLegs","MasslessMomenta","MasslessPolarization","MasslessQ","MassNumerics","Met","Metd","Metlg","MI","MIL","MlPol","MlQ","Modp","Mom","momconsRule","Momenta","MomentaNumerics","MsI","MsIndex","MsPol","MsPolNonSymm","NoLGScalar","NoLGScalarWB","NoMassiveLGScalar","NoMassiveLGScalarWB","NoMasslessLGScalar","NoMasslessLGScalarWB","NORM","NormQ","NoScalar","NoSL2CScalar","NoSL2CScalarWB","NoSU2LScalar","NoSU2LScalarWB","NoSU2RScalar","NoSU2RScalarWB","NumericLabels","OpMlHW","OpMsHW","OpMsJ","OPS","p","pMatLower","pMatUpper","PowerContract","Projector","Propagator","PropCoeff","PureGaugeTransformation","PutCanonicalIndices","PutCanonicalOrder","PutLGScalar","PutLGScalarFor","PutMassiveLGScalar","PutMassiveLGScalarFor","PutMasslessCondition","PutMasslessLGScalar","PutMasslessLGScalarFor","PutNumerics","PutOnShell","PutOnShellComponent","PutScalar","PutSL2CScalar","PutSU2LScalar","PutSU2RScalar","pVecLower","pVecUpper","r","RAMBO","RAQ","ReferenceSpinor","RefineAtomQ","RemoveMassiveData","RemoveMasslessData","RemoveReality","RepeatedRule","ReplaceMomenta","ReplaceSpinors","ScaleMomenta","ScaleMomentum","ScaleSpinors","Seed","SetCanonicalIndices","SetComponentFormAssumption","SetCounterZero","SetDefaultOrdering","SetSameMsIndices","SHA","SHAA","SHAB","SHB","SHBA","SHBB","ShiftMomenta","SHToMandelstam","SimplifyComponentForm","SimplifyPolynomial","SimplifySchouten","SignOf","sm","SM","SphericalCoordinates","SplitMassive","SplitMassiveWB","SplitMassless","SplitMasslessWB","SplitSchouten","SplitSchoutenA","SplitSchoutenB","StandardizeExpression","StripPol","StripPolA","StripPolB","SU2LBasis","SU2LGBasis","SU2LGBasisComponent","SU2LGInnerProduct","SU2LInnerProduct","SU2LRInnerProduct","SU2RBasis","SU2RInnerProduct","Swap","Symmetrized","ThreeMasslessAmplitude","TimeReversal","TL","ToBasis","ToEqns","ToList","ToMandelstam","ToMassless","TR","TwoMassiveOneMasslessAmplitude","TwoMasslessOneMassiveAmplitude","UGProjector","UGPropagator","UG\[CapitalTheta]","UndeclareLegs","UndeclareMassiveLegs","UndeclareMasslessLegs","UnSetCanonicalIndices","UnsetComponentFormAssumption","UnSetCounterZero","Xfactor","\[Delta]","\[CapitalDelta]","\[Delta]d","\[Delta]dMat","\[Delta]lg","\[Delta]lgMat","\[Delta]Mat","\[Epsilon]","\[CurlyEpsilon]","\[CapitalEpsilon]","\[Epsilon]d","\[Epsilon]dMat","\[Epsilon]dMatLower","\[Epsilon]dMatUpper","\[Epsilon]lg","\[Epsilon]lgMat","\[Epsilon]lgMatLower","\[Epsilon]lgMatUpper","\[CurlyEpsilon]Lower","\[Epsilon]Mat","\[Epsilon]MatLower","\[Epsilon]MatUpper","\[CurlyEpsilon]Upper","\[Zeta]","\[Zeta]Lower","\[Zeta]m","\[Zeta]p","\[Zeta]Upper","\[Eta]","\[Eta]Mat","\[Theta]","\[CapitalTheta]","\[CapitalNu]","\[Sigma]","\[CapitalSigma]","\[Sigma]barVecLower","\[Sigma]barVecUpper","\[Sigma]mat","\[Sigma]matRule","\[Sigma]VecLower","\[Sigma]VecUpper","\[Phi]","\[CapitalOmega]","$SMaSHShortcuts","$SMaSHFunctions","$Helicity","$Kinematics","$Mandelstams"};
+$SMaSHFunctions={"AddAssumptions","AllIndepedentMandelstam","AllLegs","AllMandelstam","AllMassiveLegs","AllMassiveMomenta","AllMassivePolarizations","AllMasslessFieldStrengths","AllMasslessHelicities","AllMasslessLegs","AllMasslessMomenta","AllMasslessPolarizations","AllMasslessReferenceSpinors","AllMomenta","B","BaseHead","CanonicalizeIndices","CanonicalizeScalars","CanonicalizeSU2LRScalars","CanonicalizeSU2LScalars","CanonicalizeSU2RScalars","CanonicalizeTerms","CartesianCoordinates","ChargeConjugate","CheckOnShell","ClearAssumptions","ClearMomentumConservation","ClearNumerics","COM","ComplexConjugate","ComplexifyNumerics","ComponentForm","ComponentNumerics","ComptonCOMFrame","COMrules","ContractLorMetric","ContractMetric","ContractSU2LGMetric","ContractSU2LMetric","ContractSU2RMetric","ConvertLortoSH","ConvertMettoSH","ConvertMlFStoSH","ConvertMlPoltoSH","ConvertMomtoSH","ConvertMsPoltoSH","Coupling","CPT","DeclareLegs","DeclareMassiveLegs","DeclareMasslessLegs","DeclareMomentumConservation","DecomposetoSU2Basis","Decompose\[Lambda]to\[Chi]","Dirac\[CapitalPsi]","DressMom","DressSH","EditMassiveData","EditMasslessData","epsilon\[Eta]","FGProjector","FGPropagator","FG\[CapitalTheta]","FindBasis","FindContactTerm","g","GenerateNumerics","GI","GI0","GI1","Helicity","HighEnergyLimit","HigherSpinDiff","HigherSpinDiffA","HigherSpinDiffB","HsPol","IfN","IfP","ImposeReality","k","Leg","LorToMandelstam","m","MandelstamRules","MandelstamtoLor","MandelstamtoSH","ManifestGI","MassConditions","MassiveData","MassiveMomenta","MassivePolarization","MassiveQ","MasslessData","MasslessFieldStrength","MasslessLegs","MasslessMomenta","MasslessPolarization","MasslessQ","MassNumerics","Met","Metd","Metlg","MI","MIL","MlPol","MlQ","Modp","Mom","momconsRule","Momenta","MomentaNumerics","MsI","MsIndex","MsPol","MsPolNonSymm","NoLGScalar","NoLGScalarWB","NoMassiveLGScalar","NoMassiveLGScalarWB","NoMasslessLGScalar","NoMasslessLGScalarWB","NORM","NormQ","NoScalar","NoSL2CScalar","NoSL2CScalarWB","NoSU2LScalar","NoSU2LScalarWB","NoSU2RScalar","NoSU2RScalarWB","NumericLabels","OpMlHW","OpMsHW","OpMsJ","OPS","p","pMatLower","pMatUpper","PowerContract","Projector","Propagator","PropCoeff","PureGaugeTransformation","PutCanonicalIndices","PutCanonicalOrder","PutLGScalar","PutLGScalarFor","PutMassiveLGScalar","PutMassiveLGScalarFor","PutMasslessCondition","PutMasslessLGScalar","PutMasslessLGScalarFor","PutNumerics","PutOnShell","PutOnShellComponent","PutScalar","PutSL2CScalar","PutSU2LScalar","PutSU2RScalar","pVecLower","pVecUpper","r","RAMBO","RAQ","ReferenceSpinor","RefineAtomQ","RemoveMassiveData","RemoveMasslessData","RemoveReality","RepeatedRule","ReplaceMomenta","ReplaceSpinors","ScaleMomenta","ScaleMomentum","ScaleSpinors","Seed","SetCanonicalIndices","SetComponentFormAssumption","SetCounterZero","SetDefaultOrdering","SetSameMsIndices","SHA","SHAA","SHAB","SHB","SHBA","SHBB","ShiftMomenta","SHToMandelstam","SimplifyComponentForm","SimplifyPolynomial","SimplifySchouten","SignOf","sm","SM","SphericalCoordinates","SplitMassive","SplitMassiveWB","SplitMassless","SplitMasslessWB","SplitSchouten","SplitSchoutenA","SplitSchoutenB","StandardizeExpression","StripPol","StripPolA","StripPolB","SU2LBasis","SU2LGBasis","SU2LGBasisComponent","SU2LGInnerProduct","SU2LInnerProduct","SU2LRInnerProduct","SU2RBasis","SU2RInnerProduct","Swap","Symmetrized","ThreeMasslessAmplitude","TimeReversal","TL","ToBasis","ToEqns","ToList","ToMandelstam","ToMassless","TR","TwoMassiveOneMasslessAmplitude","TwoMasslessOneMassiveAmplitude","UGProjector","UGPropagator","UG\[CapitalTheta]","UndeclareLegs","UndeclareMassiveLegs","UndeclareMasslessLegs","UnSetCanonicalIndices","UnsetComponentFormAssumption","UnSetCounterZero","Xfactor","\[ScriptA]","\[ScriptB]","\[Delta]","\[CapitalDelta]","\[Delta]d","\[Delta]dMat","\[Delta]lg","\[Delta]lgMat","\[Delta]Mat","\[Epsilon]","\[CurlyEpsilon]","\[CapitalEpsilon]","\[Epsilon]d","\[Epsilon]dMat","\[Epsilon]dMatLower","\[Epsilon]dMatUpper","\[Epsilon]lg","\[Epsilon]lgMat","\[Epsilon]lgMatLower","\[Epsilon]lgMatUpper","\[CurlyEpsilon]Lower","\[Epsilon]Mat","\[Epsilon]MatLower","\[Epsilon]MatUpper","\[CurlyEpsilon]Upper","\[ScriptCapitalI]","J","\[Zeta]","\[Zeta]Lower","\[Zeta]m","\[Zeta]p","\[Zeta]Upper","\[Eta]","\[Eta]Mat","\[Theta]","\[CapitalTheta]","\[CapitalNu]","\[Sigma]","\[CapitalSigma]","\[Sigma]barVecLower","\[Sigma]barVecUpper","\[Sigma]mat","\[Sigma]matRule","\[Sigma]VecLower","\[Sigma]VecUpper","\[Phi]","\[CapitalOmega]","$SMaSHShortcuts","$SMaSHFunctions","$Helicity","$Kinematics","$Mandelstams"};
+
+
+(* ::Input::Initialization:: *)
+lgindicesList= Table[MIL[{\[ScriptCapitalI],i}],{i,1000}];
+leftindicesList= Table[MIL[{\[ScriptA],i}],{i,1000}];
+rightindicesList= Table[MIL[{\[ScriptB],i}],{i,1000}];
+
+
+$SMaSHIndices=Join[lgindicesList,leftindicesList,rightindicesList];
 
 
 (* ::Section:: *)
@@ -68,6 +99,7 @@ DeclareLegs::usage="DeclareLegs[MsLegs_List][MlLegs_List] : Declares the MlLegs 
 DeclareMomentumConservation::usage="DeclareMomentumConservation[MomentumConservationEquation] : Defines the Mandelstam variables for the given momentum conservation equation. Options: $Mandelstams -> Automatic";
 DecomposetoSU2Basis::usage="DecomposetoSU2Basis[leg] : Decomposes the SH variables for a leg in the SU(2) basis.";
 Decompose\[Lambda]to\[Chi]::usage="Decomposes the SU(2) basis elements \[Lambda] to dimensionless spinors \[Chi].";
+Differentiate::usage="Differentiate[x][y] : Differentiates the spinor expression y wrt x.";
 Dirac\[CapitalPsi]::usage="Dirac\[CapitalPsi][leg, \[Alpha]] : Gives the four-component Dirac spinor.";
 DressMom::usage="DressMom[Momenta, \[Alpha], \[Beta]] : Places the spinor indices \[Alpha], \[Beta] over the linear combination Momenta.";
 DressSH::usage="Same as DressMom.";
@@ -79,7 +111,11 @@ FGPropagator::usage="FGPropagator[S, k, m, LeftPrefix, RightPrefix, LeftSymm, Ri
 FG\[CapitalTheta]::usage="FG\[CapitalTheta][Momenta, Mass, leftindiceslist, rightindiceslist] : The spin-1 projector in Feynman gauge. The default values for the left and right lists of spinor indices are {\[Alpha], \[Alpha]} and {\[Beta], \[Beta]}.";
 FindBasis::usage="FindBasis[OptionsPattern[]] : Finds the basis of an expression. The default options include {pattern -> SHAA[a___, b___] | SHBB[a___, b___] | SHAB[a___, b___, c___]}.";
 FindContactTerm::usage="FindContactTerm[leg] : Finds the contact term for a massless leg given a gauge-transformed expression.";
+g::usage="Coupling constant prefix";
 GenerateNumerics::usage="GenerateNumerics[label, MomentumConservationRule] : Generates numerical kinematics against the chosen label (e.g., $3point) for the momentum conservation rule (e.g., k1 -> k2 + k3). Options: {$Energy -> 100, $COM -> False, $Seed -> Automatic, MassConstraints -> $Assumptions, Iterations -> 20}";
+GI::usage="Get Index";
+GI0::usage="";
+GI1::usage="";
 Helicity::usage="Helicity[leg] : Gives the helicity for the declared massless leg.";
 HighEnergyLimit::usage="HighEnergyLimit[MassiveLegsList, MasslessLegsList] : Gives the high-energy limit over the list of massive legs with their corresponding list of massless legs at high energies.";
 HigherSpinDiff::usage="HigherSpinDiff[leg, Spin, SpinIndexB, SpinIndexA] : Takes the derivative with respect to the massive leg of spin Spin and the box & angle spinor index prefixes SpinIndexB and SpinIndexA.";
@@ -247,6 +283,8 @@ UnSetCanonicalIndices::usage="Unsets the default canonicalization of indices aft
 UnsetComponentFormAssumption::usage="Removes the energy, spatial momentum magnitude, Cartesian component, and angular assumptions from $Assumptions for all declared legs i.";
 UnSetCounterZero::usage="Unsets the counter being reset to zero after every evaluation.";
 Xfactor::usage="Xfactor[Mlleg, Msleg, helicity] : Gives the spinor helicity expression for the Lorentz scalar matching the contraction of the massless polarization vector and the massive momentum vector. Mlleg is the massless leg and Msleg is the massive leg; the default helicity value is specified during DeclareLegs.";
+\[ScriptA]::usage="Undotted Index prefix";
+\[ScriptB]::usage="Dotted Index prefix";
 \[Delta]::usage="Identity for left-handed SU(2). Shortcut: dl";
 \[CapitalDelta]::usage="\[CapitalDelta][I, J] : The matrix that appears in the CPT transformation.";
 \[Delta]d::usage="Identity for right-handed SU(2). Shortcut: dld";
@@ -270,6 +308,8 @@ Xfactor::usage="Xfactor[Mlleg, Msleg, helicity] : Gives the spinor helicity expr
 \[Epsilon]MatLower::usage="Matrix components of the lower SU(2)_L antisymmetric bilinear matrix.";
 \[Epsilon]MatUpper::usage="Matrix components of the upper SU(2)_L antisymmetric bilinear matrix.";
 \[CurlyEpsilon]Upper::usage="\[CurlyEpsilon]Upper[leg][ref, Helicity] : Gives the component form for the massless polarization vector with upper indices.";
+\[ScriptCapitalI]::usage="Little group index prefix";
+J::usage="Massive polarization index prefix";
 \[Zeta]::usage="Prefix for the massive polarizations.";
 \[Zeta]Lower::usage="\[Zeta]Lower[leg, I, J] : Gives the component form for the polarization matrix with lower indices IJ of a massive leg.";
 \[Zeta]m::usage="SU(2)_LG basis vector with -1 helicity.";
@@ -297,9 +337,30 @@ $Kinematics::usage="Option for MassNumerics, MomentaNumerics, ComponentNumerics,
 $Mandelstams::usage="Option for DeclareMomentumConservation. Values are Automatic (by default) or a list of all the independent Mandelstam variables.";
 $SMaSHShortcuts::usage="List of keyboard shortcuts.";
 $SMaSHFunctions::usage="List of all the public functions.";
+$SMaSHIndices::usage="List of all indices.";
+lgindicesList::usage="List of all little group indices";
+leftindicesList::usage="List of all left handed indices";
+rightindicesList::usage="List of all right handed indices";
 $Helicity::usage="Option for ComplexifyNumerics. Values are +1 (for non-vanishing boxes) and -1 (for non-vanishing angles).";
 $Kinematics::usage="Option for MassNumerics, MomentaNumerics, ComponentNumerics, and PutNumerics. Values are either \"Real\" or \"Complex\".";
 $Mandelstams::usage="Option for DeclareMomentumConservation. Values are Automatic (by default) or a list of all the independent Mandelstam variables.";
+
+
+Scan[
+  With[{s = #},
+    MessageName[s, "usage"] = "is an Index"
+  ] &,
+  $SMaSHIndices
+]
+
+
+(*Do[
+  i::usage=ToString[i]<>" is a global variable.",
+  {i,lgindicesList}
+];*)
+
+
+\[ScriptCapitalI]1::usage="index";
 
 
 (* ::Section:: *)

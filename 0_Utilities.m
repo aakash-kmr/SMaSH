@@ -4,7 +4,7 @@
 (*Variables*)
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*IfP, IfN, SignOf, MinusSign*)
 
 
@@ -75,13 +75,20 @@ SL2CSQ[expr_]:= MatchQ[expr, (SHAA|SHBB)];
 LGQ[expr_]:= MatchQ[expr, (SHAB|SHBA)];
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Counter*)
 
 
 (* ::Input::Initialization:: *)
 counter=1;
 GI[x_:1]:=Module[{}, counter=counter+x];
+
+
+(* ::Input::Initialization:: *)
+GI0[MsIndex[a_,b_]]:=MIL[{a,b,GI[0]}];
+GI1[MsIndex[a_,b_]]:=MIL[{a,b,GI[1]}];
+GI0[a_]:=MIL[{a,GI[0]}];
+GI1[a_]:=MIL[{a,GI[1]}];
 
 
 (* ::Input::Initialization:: *)
@@ -94,29 +101,7 @@ $PrePrint=.;
 SetCounterZero[];
 
 
-(* ::Section:: *)
-(*Make Index*)
-
-
-MI[X_,\[Mu]_]:=If[IfP[\[Mu]],ToExpression["Global`"<>ToString[X]<>ToString[SignOf[\[Mu]]\[Mu]]], 
-					ToExpression["Global`"<>ToString[X]<>"m"<>ToString[SignOf[\[Mu]]\[Mu]]]
-];
-
-Protect[MI];
-
-
-(* ::Input::Initialization:: *)
-OPS[A_,B_]:=OrderlessPatternSequence[A,B];
-MIL[list_List]:=ToExpression[StringJoin@Map[ToString,list]];
-MIL[pref_,n__]:=Table[If[IfN[pref],-MI[-pref,i],MI[pref,i]],{i,n}]
-MIL2[list_List]:=StringJoin@Map[ToString,list];
-
-
-(* ::Input::Initialization:: *)
-LIndex[Head_,range_]:=Map[MIL[{Head,#}]&,Range[1,range]]
-
-
-(* ::Chapter:: *)
+(* ::Chapter::Closed:: *)
 (*Make Rule*)
 
 
@@ -154,7 +139,7 @@ RepeatedRule[rule_][expr_]:=FixedPoint[rule[Expand[#]]&,expr];
 RepeatedRule[rule_List][expr_]:=FixedPoint[Composition[Sequence@@Join[rule,{Expand}]][#]&,expr];
 
 
-(* ::Chapter:: *)
+(* ::Chapter::Closed:: *)
 (*Kinematics*)
 
 
@@ -453,7 +438,7 @@ AllRealMassiveLegs[]=Select[AllRealLegs[],MsQ];
 ];
 
 
-(* ::Chapter:: *)
+(* ::Chapter::Closed:: *)
 (*Utilities*)
 
 
@@ -763,18 +748,12 @@ Total@PutLGScalar[PutSL2CScalar[ContractMetric[(Map[#//.makereplacemenets[#]&,ex
 ];
 
 
-(* ::Chapter:: *)
+(* ::Chapter::Closed:: *)
 (*Miscelleneous*)
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Canonicalize Indices*)
-
-
-(* ::Input::Initialization:: *)
-lgindicesList= Table[MIL[{\[ScriptCapitalI],i}],{i,1000}];
-leftindicesList= Table[MIL[{\[ScriptA],i}],{i,1000}];
-rightindicesList= Table[MIL[{\[ScriptB],i}],{i,1000}];
 
 
 (* ::Input::Initialization:: *)
@@ -867,7 +846,7 @@ $Post=(PutCanonicalIndices[#])&;
 (*Symmetrized*)
 
 
-Symmetrized[list_][expr_]:= Module[{},
+Symmetrized[list_][expr_]:= Module[{dummies,exprdummy},
 	dummies = Table[MI[\[Kappa]\[Tau]\[Zeta],i], {i, Length[list]}];
 	exprdummy = expr/.Thread[list->dummies];
 	1/Length[dummies]! Sum[exprdummy/.Thread[dummies->perm],{perm, Permutations[list]} ]

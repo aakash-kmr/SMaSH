@@ -361,7 +361,7 @@ Box\[Kappa]P[i_,\[Alpha]_]:=-I SignOf[\[Alpha]];
 \[Eta]/:Parity@\[Eta][\[Mu]___]:=\[Eta][\[Mu]];
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*SHA and SHB*)
 
 
@@ -378,15 +378,8 @@ SHB/:Parity@SHB[x_[a_],\[Alpha]_]/;MsQ[x]&&IntegerQ[a]:=Sum[Box\[Kappa]P[x[a,-Si
 SHB/:Parity@SHB[x_[a_],\[Alpha]_]/;MsQ[x]&&!IntegerQ[a]:=Box\[Kappa]P[x[a,-GI1[a]],\[Alpha]]SHA[x[GI0[a]],-\[Alpha]];
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*SHAA and SHBB*)
-
-
-(* ::Input::Initialization:: *)
-GI0[a_]:=MIL[{a,GI[0]}];
-GI1[a_]:=MIL[{a,GI[1]}];
-Protect[GI0];
-Protect[GI1];
 
 
 (* ::Input::Initialization:: *)
