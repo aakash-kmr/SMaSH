@@ -111,9 +111,10 @@ FG\[CapitalTheta][p_:k1,m_:m[1],LIndx_List:{\[Alpha], \[Alpha]},RIndx_List:{ \[B
 
 (* ::Input::Initialization:: *)
 PropCoeff[j1_,r_,d_]:= (-1/2)^r (j1! (2j1+d-2r-5)!!)/(r!(j1-2r)!(2j1+d-5)!!)//FullSimplify;
-
-Projector[j_Integer:1, p_:k1,m_:m[1],\[Xi]_:\[Xi], prefixesL_List:{\[Alpha], \[Alpha]},prefixesR_List:{ \[Beta], \[Beta]},LeftSymm_:False,RightSymm_:False]:= 
-	Module[{A, Term, DimM, PreProjector, perms,list\[Alpha],list\[Alpha]d,list\[Beta],list\[Beta]d,projec1,projec2},
+Options[Projector]={LeftSymm->False,RightSymm->False,\[Xi]->\[Xi]};
+Projector[j_Integer:1, p_:k1,m_:m[1], prefixesL_List:{\[Alpha], \[Alpha]},prefixesR_List:{ \[Beta], \[Beta]},OptionsPattern[]]:= 
+	Module[{A, Term, DimM, PreProjector, perms,list\[Alpha],list\[Alpha]d,list\[Beta],list\[Beta]d,projec1,projec2,\[Xi]1,LeftSymm1,RightSymm1},
+\[Xi]1=OptionValue[\[Xi]];LeftSymm1=OptionValue[LeftSymm];RightSymm1=OptionValue[RightSymm];
 		A[j1_,r_,d_]:= PropCoeff[j1, r, d];
 		DimM = 4;
 		list\[Alpha] =  LIndex[prefixesL[[1]],j];
@@ -121,25 +122,28 @@ Projector[j_Integer:1, p_:k1,m_:m[1],\[Xi]_:\[Xi], prefixesL_List:{\[Alpha], \[A
 		list\[Beta] = LIndex[prefixesR[[1]],j];
 		list\[Beta]d = LIndex[prefixesR[[2]],j];
 		PreProjector[plist\[Alpha]_,plist\[Alpha]d_,plist\[Beta]_,plist\[Beta]d_]:= If[j==0, 1,Total@ Map[A[j, #, DimM]
-						Times@@Map[\[CapitalTheta][p, m,\[Xi],{ plist\[Alpha][[#]], plist\[Alpha]d[[#]]},{ plist\[Alpha][[#+1]], plist\[Alpha]d[[#+1]]}]&, Range[ 1, 2#, 2]]
-						Times@@Map[\[CapitalTheta][p, m,\[Xi], {plist\[Beta][[#]], plist\[Beta]d[[#]]},{ plist\[Beta][[#+1]], plist\[Beta]d[[#+1]]}]&, Range[ 1, 2#, 2]]
-						Times@@Map[\[CapitalTheta][p, m,\[Xi],{ plist\[Alpha][[#]], plist\[Alpha]d[[#]]}, {plist\[Beta][[#]], plist\[Beta]d[[#]]}]&, Range[ 2#+1, j]]&,
+						Times@@Map[\[CapitalTheta][p, m,\[Xi]1,{ plist\[Alpha][[#]], plist\[Alpha]d[[#]]},{ plist\[Alpha][[#+1]], plist\[Alpha]d[[#+1]]}]&, Range[ 1, 2#, 2]]
+						Times@@Map[\[CapitalTheta][p, m,\[Xi]1, {plist\[Beta][[#]], plist\[Beta]d[[#]]},{ plist\[Beta][[#+1]], plist\[Beta]d[[#+1]]}]&, Range[ 1, 2#, 2]]
+						Times@@Map[\[CapitalTheta][p, m,\[Xi]1,{ plist\[Alpha][[#]], plist\[Alpha]d[[#]]}, {plist\[Beta][[#]], plist\[Beta]d[[#]]}]&, Range[ 2#+1, j]]&,
 				   Range[ 0,Floor[j/2]]]];	   
 		
 		perms=Permutations[Range[j]];
-projec1=If[LeftSymm,Symmetrized[list\[Alpha]d]@Symmetrized[list\[Alpha]]@PreProjector[list\[Alpha], list\[Alpha]d, list\[Beta], list\[Beta]d],PreProjector[list\[Alpha], list\[Alpha]d, list\[Beta], list\[Beta]d]];
-projec2=If[LeftSymm,Symmetrized[list\[Beta]d]@Symmetrized[list\[Beta]]@projec1,projec1];
+projec1=If[LeftSymm1,Symmetrized[list\[Alpha]d]@Symmetrized[list\[Alpha]]@PreProjector[list\[Alpha], list\[Alpha]d, list\[Beta], list\[Beta]d],PreProjector[list\[Alpha], list\[Alpha]d, list\[Beta], list\[Beta]d]];
+projec2=If[RightSymm1,Symmetrized[list\[Beta]d]@Symmetrized[list\[Beta]]@projec1,projec1];
 projec2
 	];
 
 
-
-Propagator[j_Integer:1, p_:k1, m_:m[1],\[Xi]_:\[Xi],  prefixesL_List:{\[Alpha], \[Alpha]},prefixesR_List:{ \[Beta], \[Beta]},LeftSymm_:False,RightSymm_:False]:=((-I)/(PutLGScalar@SimplifyPolynomial[-((DressMom[p,dummya,dummyb]DressMom[p,-dummya,-dummyb])/2)]+m^2+I \[CurlyEpsilon]))Projector[j, p, m,\[Xi],prefixesL,prefixesR,LeftSymm,RightSymm ];
+Options[Propagator]={LeftSymm->False,RightSymm->False,\[Xi]->\[Xi]};
+Propagator[j_Integer:1, p_:k1, m_:m[1],prefixesL_List:{\[Alpha], \[Alpha]},prefixesR_List:{ \[Beta], \[Beta]},OptionsPattern[]]:=Module[{dummya,dummyb,\[Xi]1,LeftSymm1,RightSymm1},\[Xi]1=OptionValue[\[Xi]];LeftSymm1=OptionValue[LeftSymm];RightSymm1=OptionValue[RightSymm];
+((-I)/(PutLGScalar@SimplifyPolynomial[-((DressMom[p,dummya,dummyb]DressMom[p,-dummya,-dummyb])/2)]+m^2+I \[CurlyEpsilon]))Projector[j, p, m,prefixesL,prefixesR,LeftSymm->LeftSymm1,RightSymm->RightSymm1,\[Xi]->\[Xi]1]];
 
 
 (* ::Input::Initialization:: *)
-UGProjector[j_Integer:1, p_:k1,m_:m[1], prefixesL_List:{\[Alpha], \[Alpha]},prefixesR_List:{ \[Beta], \[Beta]},LeftSymm_:False,RightSymm_:False]:= 
-	Module[{A, Term, DimM, PreProjector, perms,list\[Alpha],list\[Alpha]d,list\[Beta],list\[Beta]d,projec1,projec2},
+Options[UGProjector]={LeftSymm->False,RightSymm->False};
+UGProjector[j_Integer:1, p_:k1,m_:m[1], prefixesL_List:{\[Alpha], \[Alpha]},prefixesR_List:{ \[Beta], \[Beta]},OptionsPattern[]]:= 
+	Module[{A, Term, DimM, PreProjector, perms,list\[Alpha],list\[Alpha]d,list\[Beta],list\[Beta]d,projec1,projec2,LeftSymm1,RightSymm1},
+LeftSymm1=OptionValue[LeftSymm];RightSymm1=OptionValue[RightSymm];
 		A[j1_,r_,d_]:= PropCoeff[j1, r, d];
 		DimM = 4;
 		list\[Alpha] =  LIndex[prefixesL[[1]],j];
@@ -153,19 +157,24 @@ UGProjector[j_Integer:1, p_:k1,m_:m[1], prefixesL_List:{\[Alpha], \[Alpha]},pref
 				   Range[ 0,Floor[j/2]]]];	   
 		
 		perms=Permutations[Range[j]];
-projec1=If[LeftSymm,Symmetrized[list\[Alpha]d]@Symmetrized[list\[Alpha]]@PreProjector[list\[Alpha], list\[Alpha]d, list\[Beta], list\[Beta]d],PreProjector[list\[Alpha], list\[Alpha]d, list\[Beta], list\[Beta]d]];
-projec2=If[LeftSymm,Symmetrized[list\[Beta]d]@Symmetrized[list\[Beta]]@projec1,projec1];
+projec1=If[LeftSymm1,Symmetrized[list\[Alpha]d]@Symmetrized[list\[Alpha]]@PreProjector[list\[Alpha], list\[Alpha]d, list\[Beta], list\[Beta]d],PreProjector[list\[Alpha], list\[Alpha]d, list\[Beta], list\[Beta]d]];
+projec2=If[RightSymm1,Symmetrized[list\[Beta]d]@Symmetrized[list\[Beta]]@projec1,projec1];
 projec2
 	];
 
 
 
-UGPropagator[j_Integer:1, p_:k1, m_:m[1],  prefixesL_List:{\[Alpha], \[Alpha]},prefixesR_List:{ \[Beta], \[Beta]},LeftSymm_:False,RightSymm_:False]:=((-I)/(PutLGScalar@SimplifyPolynomial[-((DressMom[p,dummya,dummyb]DressMom[p,-dummya,-dummyb])/2)]+m^2+I \[CurlyEpsilon]))UGProjector[j, p, m,prefixesL,prefixesR,LeftSymm,RightSymm ];
+Options[UGPropagator]={LeftSymm->False,RightSymm->False};
+UGPropagator[j_Integer:1, p_:k1, m_:m[1],  prefixesL_List:{\[Alpha], \[Alpha]},prefixesR_List:{ \[Beta], \[Beta]},OptionsPattern[]]:=Module[{dummya,dummyb,\[Xi]1,LeftSymm1,RightSymm1},
+LeftSymm1=OptionValue[LeftSymm];RightSymm1=OptionValue[RightSymm];
+((-I)/(PutLGScalar@SimplifyPolynomial[-((DressMom[p,dummya,dummyb]DressMom[p,-dummya,-dummyb])/2)]+m^2+I \[CurlyEpsilon]))UGProjector[j, p, m,prefixesL,prefixesR,LeftSymm ->LeftSymm1,RightSymm->RightSymm1]];
 
 
 (* ::Input::Initialization:: *)
-FGProjector[j_Integer:1, p_:k1,m_:m[1], prefixesL_List:{\[Alpha], \[Alpha]},prefixesR_List:{ \[Beta], \[Beta]},LeftSymm_:False,RightSymm_:False]:= 
-	Module[{A, Term, DimM, PreProjector, perms,list\[Alpha],list\[Alpha]d,list\[Beta],list\[Beta]d,projec1,projec2},
+Options[FGProjector]={LeftSymm->False,RightSymm->False};
+FGProjector[j_Integer:1, p_:k1,m_:m[1], prefixesL_List:{\[Alpha], \[Alpha]},prefixesR_List:{ \[Beta], \[Beta]},OptionsPattern[]]:= 
+	Module[{A, Term, DimM, PreProjector, perms,list\[Alpha],list\[Alpha]d,list\[Beta],list\[Beta]d,projec1,projec2,LeftSymm1,RightSymm1},
+LeftSymm1=OptionValue[LeftSymm];RightSymm1=OptionValue[RightSymm];
 		A[j1_,r_,d_]:= PropCoeff[j1, r, d];
 		DimM = 4;
 		list\[Alpha] =  LIndex[prefixesL[[1]],j];
@@ -179,21 +188,24 @@ FGProjector[j_Integer:1, p_:k1,m_:m[1], prefixesL_List:{\[Alpha], \[Alpha]},pref
 				   Range[ 0,Floor[j/2]]]];	   
 		
 		perms=Permutations[Range[j]];
-projec1=If[LeftSymm,Symmetrized[list\[Alpha]d]@Symmetrized[list\[Alpha]]@PreProjector[list\[Alpha], list\[Alpha]d, list\[Beta], list\[Beta]d],PreProjector[list\[Alpha], list\[Alpha]d, list\[Beta], list\[Beta]d]];
-projec2=If[LeftSymm,Symmetrized[list\[Beta]d]@Symmetrized[list\[Beta]]@projec1,projec1];
+projec1=If[LeftSymm1,Symmetrized[list\[Alpha]d]@Symmetrized[list\[Alpha]]@PreProjector[list\[Alpha], list\[Alpha]d, list\[Beta], list\[Beta]d],PreProjector[list\[Alpha], list\[Alpha]d, list\[Beta], list\[Beta]d]];
+projec2=If[RightSymm1,Symmetrized[list\[Beta]d]@Symmetrized[list\[Beta]]@projec1,projec1];
 projec2
 	];
 
 
 
-FGPropagator[j_Integer:1, p_:k1, m_:m[1],  prefixesL_List:{\[Alpha], \[Alpha]},prefixesR_List:{ \[Beta], \[Beta]},LeftSymm_:False,RightSymm_:False]:=((-I)/(PutLGScalar@SimplifyPolynomial[-((DressMom[p,dummya,dummyb]DressMom[p,-dummya,-dummyb])/2)]+m^2+I \[CurlyEpsilon]))FGProjector[j, p, m,prefixesL,prefixesR,LeftSymm,RightSymm ];
+Options[FGPropagator]={LeftSymm->False,RightSymm->False};
+FGPropagator[j_Integer:1, p_:k1, m_:m[1],  prefixesL_List:{\[Alpha], \[Alpha]},prefixesR_List:{ \[Beta], \[Beta]},OptionsPattern[]]:=Module[{dummya,dummyb,\[Xi]1,LeftSymm1,RightSymm1},
+LeftSymm1=OptionValue[LeftSymm];RightSymm1=OptionValue[RightSymm];
+((-I)/(PutLGScalar@SimplifyPolynomial[-((DressMom[p,dummya,dummyb]DressMom[p,-dummya,-dummyb])/2)]+m^2+I \[CurlyEpsilon]))FGProjector[j, p, m,prefixesL,prefixesR,LeftSymm->LeftSymm1,RightSymm ->RightSymm1 ]];
 
 
-(* ::Chapter:: *)
+(* ::Chapter::Closed:: *)
 (*Mandelstam variables*)
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*SM*)
 
 
@@ -201,7 +213,7 @@ FGPropagator[j_Integer:1, p_:k1, m_:m[1],  prefixesL_List:{\[Alpha], \[Alpha]},p
 SM/:SM[i___]:=Map[sm[Sequence@@#]&,Tuples[{i},{2}]]//Total
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*sm*)
 
 
@@ -242,7 +254,7 @@ HP@sm[i_,j_]:> SP[i[\[Mu]]j[-\[Mu]]//.Thread[AllLegs[]->AllMomenta[]]]
 };
 
 
-(* ::Chapter:: *)
+(* ::Chapter::Closed:: *)
 (*Declare Momentum conservation*)
 
 
@@ -297,20 +309,20 @@ Message[Error::FoundUndefMom]];
 ClearMomentumConservation[]:=Module[{},momconsRule[]={};AllMandelstam[]={};AllIndepedentMandelstam[]={};MandelstamRules={};]
 
 
-(* ::Chapter:: *)
+(* ::Chapter::Closed:: *)
 (*Standardize Expression*)
 
 
 StandardizeExpression[rule_List:momconsRule[]][expr_]:=expr//ReplaceMomenta[rule];
 
 
-(* ::Chapter:: *)
+(* ::Chapter::Closed:: *)
 (*Pure Gauge Transformations*)
 
 
 (* ::Input::Initialization:: *)
 PureGaugeTransformation[leg_][expr_List]:=Map[PureGaugeTransformation[leg],expr];
-PureGaugeTransformation[leg_][expr_]:=Module[{(*expr1,expr2,expr2Nums,expr2Denoms,expr2Nums1,FinalExpr,ref,newref*)},
+PureGaugeTransformation[leg_][expr_]:=Module[{expr1,expr2,expr2Nums,expr2Denoms,expr2Nums1,FinalExpr,ref,newref},
 ref=ReferenceSpinor[leg];
 newref=MIL[{ref,leg}];
 expr1=ToList[Expand[expr]];
@@ -336,12 +348,12 @@ X_[r,$a___]X_[rr,$a1___]:>If[OrderedQ[{$a,$a1}]===OrderedQ[{r,rr}],PutCanonicalO
 GIQ[leg_][expr_]:=(StandardizeExpression[momconsRule[]]@Simplify[SHToMandelstam[PureGaugeTransformation[leg][expr]]]===0)
 
 
-(* ::Chapter:: *)
+(* ::Chapter::Closed:: *)
 (*Find Contact Term*)
 
 
 (* ::Input::Initialization:: *)
-FindContactTerm[leg_][expr_]:=Module[{expr1,expr1Nums,expr1Denoms,expr2},
+FindContactTerm[leg_][expr_]:=Module[{expr1,ref,newref,expr1Nums,expr1Denoms,expr2},
 ref=ReferenceSpinor[leg];
 newref=MIL[{ref,leg}];
 expr1=PutCanonicalOrder[ToList[Expand[expr]]];
@@ -351,7 +363,7 @@ Total@(Thread[expr2*1/expr1Denoms]//Expand//ApplyRule[{X_[\[Mu]___,newref,\[Nu]_
 ]
 
 
-(* ::Chapter:: *)
+(* ::Chapter::Closed:: *)
 (*Manifest GI*)
 
 

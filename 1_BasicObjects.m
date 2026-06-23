@@ -715,14 +715,14 @@ MakeBoxes[sm[i_,j_],StandardForm|TraditionalForm]:=TemplateBox[{ToBoxes[i],ToBox
 MakeBoxes[SM[i___],StandardForm|TraditionalForm]:=TemplateBox[Map[ToBoxes,{i}],"Mandelstams",DisplayFunction->(SubscriptBox["\[ScriptCapitalS]",RowBox[{##}]]&),InterpretationFunction->(RowBox[{"SM","[",RowBox@Riffle[{##},","],"]"}]&)]
 
 
-(* ::Chapter::Closed:: *)
+(* ::Chapter:: *)
 (*Input Form Aliases*)
 
 
 (* ::Input::Initialization:: *)
 $SMaSHShortcuts={
 "ep"->MakeBoxes[\[Epsilon][\[Placeholder],\[SelectionPlaceholder]]],"epd"->MakeBoxes[\[Epsilon]d[\[Placeholder],\[SelectionPlaceholder]]],"eplg"->MakeBoxes[\[Epsilon]lg[\[Placeholder],\[SelectionPlaceholder]]],
-"dl"->MakeBoxes[\[Delta][\[Placeholder],-\[SelectionPlaceholder]]],"dld"->MakeBoxes[\[Delta]d[\[Placeholder],-\[SelectionPlaceholder]]],"dlg"->MakeBoxes[\[Delta]lg[\[Placeholder],-\[SelectionPlaceholder]]],"met"-> MakeBoxes[\[Eta][\[Placeholder],\[Placeholder]]],
+"dl"->MakeBoxes[\[Delta][\[Placeholder],-\[SelectionPlaceholder]]],"dld"->MakeBoxes[\[Delta]d[\[Placeholder],-\[SelectionPlaceholder]]],"dlg"->MakeBoxes[\[Delta]lg[\[Placeholder],-\[SelectionPlaceholder]]],"\[Eta]"-> MakeBoxes[\[Eta][\[Placeholder],\[Placeholder]]],
 "<"->MakeBoxes[SHA[\[Placeholder],-\[SelectionPlaceholder]]],">"->MakeBoxes[SHA[\[Placeholder],\[SelectionPlaceholder]]],"["->MakeBoxes[SHB[\[Placeholder],\[SelectionPlaceholder]]],"]"->MakeBoxes[SHB[\[Placeholder],-\[SelectionPlaceholder]]],
 "[]"->MakeBoxes[SHBB[\[Placeholder],\[SelectionPlaceholder]]],"<>"->MakeBoxes[SHAA[\[Placeholder],\[SelectionPlaceholder]]],
 "<]"->MakeBoxes[SHAB[\[Placeholder],\[SelectionPlaceholder],\[SelectionPlaceholder]]],"[>"->MakeBoxes[SHBA[\[Placeholder],\[SelectionPlaceholder],\[SelectionPlaceholder]]],
