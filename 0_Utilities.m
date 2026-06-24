@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-(* ::Chapter:: *)
+(* ::Chapter::Closed:: *)
 (*Variables*)
 
 
@@ -75,7 +75,7 @@ SL2CSQ[expr_]:= MatchQ[expr, (SHAA|SHBB)];
 LGQ[expr_]:= MatchQ[expr, (SHAB|SHBA)];
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Counter*)
 
 
@@ -143,11 +143,11 @@ RepeatedRule[rule_List][expr_]:=FixedPoint[Composition[Sequence@@Join[rule,{Expa
 (*Kinematics*)
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Declare Massive and Massless*)
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*Default Associations*)
 
 
@@ -193,7 +193,7 @@ Leg[mom_]:=Lookup[Reverse/@Join[Normal@MasslessMomentaThread,Normal@MassiveMomen
 Momenta[leg_]:=Lookup[Join[Normal@MasslessMomentaThread,Normal@MassiveMomentaThread],leg]
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*Edit Data*)
 
 
@@ -268,7 +268,7 @@ colmn
 ];
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*Add and Remove Data*)
 
 
@@ -312,7 +312,7 @@ EditMasslessData[];
 ];
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*Declare and Undeclare Legs*)
 
 
@@ -338,7 +338,7 @@ UndeclareMasslessLegs=RemoveMasslessData;
 UndeclareLegs[MassiveLegs_List:{}][MasslessLegs_List:{}]:=(UndeclareMassiveLegs[MassiveLegs];UndeclareMasslessLegs[MasslessLegs];)
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Add and Remove Assumptions*)
 
 
@@ -627,7 +627,7 @@ Composition[Sequence@@allreplacements][expr]
 ];	
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Differentiate*)
 
 
@@ -701,12 +701,12 @@ HigherSpinDiff[leg_,Spin_,IndexHead1_:\[Alpha],IndexHead2_:\[Beta]][expr_]:=High
 
 
 (* ::Input::Initialization:: *)
-OpMlHW[leg_][expr_]:=1/2 (SHA[leg,dummy\[Alpha][GI[1]]]Differentiate[SHA[leg,dummy\[Alpha][GI[0]]]][expr]-SHB[leg,dummy\[Alpha][GI[1]]]Differentiate[SHB[leg,dummy\[Alpha][GI[0]]]][expr])//SimplifyPolynomial//PutLGScalar;
-OpMsJ[leg_,I1_,J_][expr_]:=(SHA[leg[I1],dummy\[Alpha][GI[1]]]Differentiate[SHA[leg[J],dummy\[Alpha][GI[0]]]][expr]-SHB[leg[I1],dummy\[Alpha][GI[1]]]Differentiate[SHB[leg[J],dummy\[Alpha][GI[0]]]][expr]);
-OpMsHW[leg_,I1_,J_][expr_]:=OpMsJ[leg,I1,J][expr]-1/2 \[Delta]lg[I1,-J]OpMsJ[leg,dummyI[GI[1]],dummyI[GI[0]]][expr]//ContractMetric//PutLGScalar;
+OpMlHW[leg_][expr_]:=Module[{dummy\[Alpha]},1/2 (SHA[leg,dummy\[Alpha][GI[1]]]Differentiate[SHA[leg,dummy\[Alpha][GI[0]]]][expr]-SHB[leg,dummy\[Alpha][GI[1]]]Differentiate[SHB[leg,dummy\[Alpha][GI[0]]]][expr])//Expand//ContractMetric//PutScalar];
+OpMsJ[leg_,I1_,J_][expr_]:=Module[{dummy\[Alpha]},(SHA[leg[I1],dummy\[Alpha][GI[1]]]Differentiate[SHA[leg[J],dummy\[Alpha][GI[0]]]][expr]-SHB[leg[I1],dummy\[Alpha][GI[1]]]Differentiate[SHB[leg[J],dummy\[Alpha][GI[0]]]][expr])//Expand//ContractMetric//PutScalar];
+OpMsHW[leg_,I1_,J_][expr_]:=Module[{dummyI},OpMsJ[leg,I1,J][expr]-1/2 \[Delta]lg[I1,-J]OpMsJ[leg,dummyI[GI[1]],dummyI[GI[0]]][expr]//Expand//ContractMetric//PutScalar];
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Strip Polarization*)
 
 
@@ -748,7 +748,7 @@ Total@PutLGScalar[PutSL2CScalar[ContractMetric[(Map[#//.makereplacemenets[#]&,ex
 ];
 
 
-(* ::Chapter::Closed:: *)
+(* ::Chapter:: *)
 (*Miscelleneous*)
 
 
@@ -757,18 +757,37 @@ Total@PutLGScalar[PutSL2CScalar[ContractMetric[(Map[#//.makereplacemenets[#]&,ex
 
 
 (* ::Input::Initialization:: *)
-CanonicalizeIndices[expr_]:=Module[{listLGIndices,list\[Alpha]Indices,list\[Beta]Indices,expr2,AllLGidxs,AllRidxs,AllLidxs,ReplaceLGidxRules,ReplaceRidxRules,ReplaceLidxRules},
-listLGIndices=lgindicesList;
+CanonicalizeIndices[expr_]:=Module[{rule,expr1,expr2,exprNum,exprDen,list\[Alpha]Indices,list\[Beta]Indices,exprNum1,exprDen1,AllNumLidxs,AllNumRidxs,AllDenLidxs,AllDenRidxs,ReplaceLRidxNumRules,ReplaceLRidxDenRules},
+rule=Join[MakeRulesForExponents[{SHA[i_,A_],SHA[i,A]},{SHA[j_, -A_],SHA[j,-A]},HF@(- SHA[i,- Ridx[{i,j,0}]]SHA[j, Ridx[{i,j,0}]]),HF@(And[Head[A]=!= Ridx])],
+
+ MakeRulesForExponents[{SHB[i_,A_],SHB[i,A]},{SHB[j_, -A_],SHB[j,-A]}, HF@(SHB[i, Lidx[{i,j,0}]]SHB[j,- Lidx[{i,j,0}]]), HF@(And[Head[A]=!= Lidx])],
+
+ MakeRulesForExponents[{ HF@Y_[\[Mu]___,i_[a_],\[Nu]___], HF@Y[\[Mu],i[a],\[Nu]]},{ HF@X_[\[Rho]___,i_[b_],\[Sigma]___], HF@X[\[Rho],i[b],\[Sigma]]},  HF@(Y[\[Mu],i[SignOf[a] LGidx[i,\[Mu],\[Nu]]],\[Nu]]X[\[Rho],i[SignOf[b] LGidx[i,\[Mu],\[Nu]]],\[Sigma]]), HF@(MsQ[i]&&!IntegerQ[a]&&!IntegerQ[b]&&a+b==0&&Not[BaseHead[a]=== LGidx]&&Not[BaseHead[b]=== LGidx])]];
+expr1=expr//ExpandAll;
+expr2=expr1//ReplaceRepeated[rule];
+exprNum=expr2//Together//Numerator;
+exprDen=expr2//Together//Denominator;
 list\[Alpha]Indices=rightindicesList;
 list\[Beta]Indices=leftindicesList;
-expr2 = expr;
-AllLGidxs= Cases[expr2,LGidx[x___], All]//DeleteDuplicates;
-AllLidxs = Cases[expr2,  Lidx[x___], All]//DeleteDuplicates;
-AllRidxs = Cases[expr2,  Ridx[x___], All]//DeleteDuplicates;
-ReplaceLGidxRules = Thread[AllLGidxs-> listLGIndices[[;;Length[AllLGidxs]]]];
-ReplaceLidxRules = Thread[AllLidxs-> list\[Beta]Indices[[;;Length[AllLidxs]]]];
-ReplaceRidxRules = Thread[AllRidxs-> list\[Alpha]Indices[[;;Length[AllRidxs]]]];
-expr2//.ReplaceLidxRules//.ReplaceRidxRules//.ReplaceLGidxRules
+listlgIndices=lgindicesList;
+exprNum1 = exprNum;
+exprDen1 = exprDen;
+
+AllNumLidxs = Cases[exprNum1, Lidx[x___], All]//DeleteDuplicates;
+AllNumRidxs = Cases[exprNum1, Ridx[x___], All]//DeleteDuplicates;
+AllNumLGidxs = Cases[exprNum1, LGidx[x___], All]//DeleteDuplicates;
+AllDenLidxs = Cases[exprDen1,  Lidx[x___], All]//DeleteDuplicates;
+AllDenRidxs = Cases[exprDen1,  Ridx[x___], All]//DeleteDuplicates;
+AllDenLGidxs = Cases[exprDen1,  LGidx[x___], All]//DeleteDuplicates;
+
+ReplaceLRidxNumRules =Join[ 
+Thread[AllNumLidxs-> list\[Beta]Indices[[;;Length[AllNumLidxs]]]],
+Thread[AllNumRidxs-> list\[Alpha]Indices[[;;Length[AllNumRidxs]]]],
+Thread[AllNumLGidxs-> listlgIndices[[;;Length[AllNumLGidxs]]]]];
+
+ReplaceLRidxDenRules =Join[ 
+Thread[AllDenLidxs-> list\[Beta]Indices[[Length[AllNumLidxs]+1;;Length[AllDenLidxs]+Length[AllNumLidxs]]]],Thread[AllDenRidxs-> list\[Alpha]Indices[[Length[AllNumRidxs]+1;;Length[AllDenRidxs]+Length[AllNumRidxs]]]],Thread[AllDenLGidxs-> listlgIndices[[Length[AllNumLGidxs]+1;;Length[AllDenLGidxs]+Length[AllNumLGidxs]]]]];
+(exprNum1//.ReplaceLRidxNumRules)/(exprDen1//.ReplaceLRidxDenRules)
 ];
 
 

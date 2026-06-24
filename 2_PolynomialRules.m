@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Default Canonical*)
 
 
@@ -216,7 +216,7 @@ Protect[\[CapitalSigma],\[CapitalOmega],\[CapitalDelta],SHA,SHB,SHAA,SHBB,SHAB,S
 ];
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Contract Metric*)
 
 
@@ -329,6 +329,20 @@ LorMetricRules:={
 ContractLorMetric[expr_]:=expr//.LorMetricRules;
 
 
+(* ::Section:: *)
+(*\[Sigma]matRule*)
+
+
+(* ::Input::Initialization:: *)
+\[Sigma]matRule[expr_]:=expr//.{
+\[Sigma]mat[\[Mu]_][\[Alpha]_,\[Beta]_]\[Sigma]mat[\[Nu]_][\[Gamma]_,\[Rho]_]/;\[Mu]+\[Nu]==0:>-2Met[\[Alpha],\[Gamma]]Metd[\[Beta],\[Rho]], 
+\[Sigma]mat[\[Mu]_][\[Beta]_,\[Alpha]_]\[Sigma]mat[\[Nu]_][\[Delta]_,\[Gamma]_]/;\[Beta]+\[Delta]==0&& \[Alpha]+\[Gamma]==0:>- 2 \[Eta][\[Mu],\[Nu]]
+};
+
+
+ContractPauliMatrix=\[Sigma]matRule;
+
+
 (* ::Section::Closed:: *)
 (*PutSL2CScalar*)
 
@@ -431,7 +445,7 @@ expr2//.ReplaceIdxRules//Refine
 SplitMassive=NoMassiveLGScalar;
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*NoLGScalar*)
 
 
@@ -459,9 +473,9 @@ SplitMasslessWB=NoMasslessLGScalarWB;
 
 (* ::Input::Initialization:: *)
 NoMassiveLGScalarWBRules:={
-	SHAB[i_,a_?MsQ,j_]^l_/;l>0 :> Product[ SHAA[i,a[-LGidx[{A,i, a,k}]]]\[Epsilon]lg[LGidx[{A,i, a,k}],LGidx[{B, a, j,k}]] SHBB[j,a[-LGidx[{B,a, j,k}]]],{k,1,l}],
-	SHAB[i_,a_?MsQ,j_]^l_/;l<0 :> 1/Product[ SHAA[i,a[-LGidx[{A,i, a,k}]]]\[Epsilon]lg[LGidx[{A,i, a,k}],LGidx[{B, a, j,k}]] SHBB[j,a[-LGidx[{B,a, j,k}]]],{k,1,Abs[l]}],
-SHAB[i_,a_?MsQ,j_] :>SHAA[i,a[-LGidx[{A,i, a}]]]\[Epsilon]lg[LGidx[{A,i, a}],LGidx[{B, a, j}]] SHBB[j,a[-LGidx[{B,a, j}]]]
+	SHAB[i_,a_?MsQ,j_]^l_/;l>0 :> Product[ SHAA[i,a[-LGidx[{A,i, a,k,1}]]]\[Epsilon]lg[LGidx[{A,i, a,k,1}],LGidx[{B, a, j,k,1}]] SHBB[j,a[-LGidx[{B,a, j,k,1}]]],{k,1,l}],
+	SHAB[i_,a_?MsQ,j_]^l_/;l<0 :> 1/Product[ SHAA[i,a[-LGidx[{A,i, a,k,-1}]]]\[Epsilon]lg[LGidx[{A,i, a,k,-1}],LGidx[{B, a, j,k,-1}]] SHBB[j,a[-LGidx[{B,a, j,k,-1}]]],{k,1,Abs[l]}],
+SHAB[i_,a_?MsQ,j_] :>SHAA[i,a[-LGidx[{A,i, a,0}]]]\[Epsilon]lg[LGidx[{A,i, a,0}],LGidx[{B, a, j,0}]] SHBB[j,a[-LGidx[{B,a, j,0}]]]
 };
 
 Options[NoMassiveLGScalarWB] = {dummyLGIndices->lgindicesList};
@@ -485,7 +499,7 @@ SplitMassiveWB=NoMassiveLGScalarWB;
 NoLGScalarWB[expr_]:=expr//NoMasslessLGScalarWB//NoMassiveLGScalarWB;
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*NoSL2CScalar*)
 
 
@@ -577,7 +591,7 @@ expr2//.ReplaceRIdxRules
 NoSL2CScalarWB[expr_]:=expr//NoSU2LScalarWB//NoSU2RScalarWB;
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Schouten*)
 
 
@@ -635,7 +649,7 @@ ApplySchouten[exp_]:=Module[{testrules=GenerateSchoutenRules[exp]},Simplify[exp,
 SimplifySchouten[exp_,opts:OptionsPattern[FullSimplify]]:=FullSimplify[PutCanonicalOrder[exp],opts,TransformationFunctions->{Automatic,ApplySchouten}];
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Onshell*)
 
 
@@ -653,7 +667,7 @@ SHAB[a_,c_?MsQ,c_?MsQ[L_]]:> m[BaseHead@c]SHAA[a,c[L]]
 PutOnShell[expr_]:=expr//.OnShellRules//PutCanonicalOrder;
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*SimplifyPolynomial*)
 
 

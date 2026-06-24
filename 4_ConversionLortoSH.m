@@ -7,6 +7,7 @@
 (* ::Input::Initialization:: *)
 
 
+
 PickPosition[X_,a_]:=ToExpression[StringTake[ToString[X],a],StandardForm];
 
 ExpandScalar[expr_]:=expr//.{SP[X_]:> SP[Expand[X ]]}
@@ -60,17 +61,6 @@ RunConvertLortoSHRules[];
 ConvertLortoSH[h1___][h2___][expr_]:=Module[{expr1},RunConvertLortoSHRules[]; 
 expr1=expr//ToSP;
 expr1//.ConvertLortoSHRules[h1][h2]//ExpandScalar//CanonicalizeIndices//\[Sigma]matRule//SimplifyPolynomial//PutLGScalar//ApplyRule[SP[Z_]:> Z]];
-
-
-(* ::Section::Closed:: *)
-(*\[Sigma]matRule*)
-
-
-(* ::Input::Initialization:: *)
-\[Sigma]matRule[expr_]:=expr//.{
-\[Sigma]mat[\[Mu]_][\[Alpha]_,\[Beta]_]\[Sigma]mat[\[Nu]_][\[Gamma]_,\[Rho]_]/;\[Mu]+\[Nu]==0:>-2Met[\[Alpha],\[Gamma]]Metd[\[Beta],\[Rho]], 
-\[Sigma]mat[\[Mu]_][\[Beta]_,\[Alpha]_]\[Sigma]mat[\[Nu]_][\[Delta]_,\[Gamma]_]/;\[Beta]+\[Delta]==0&& \[Alpha]+\[Gamma]==0:>- 2 \[Eta][\[Mu],\[Nu]]
-};
 
 
 (* ::Title:: *)

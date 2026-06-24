@@ -22,12 +22,12 @@ MIL2[list_List]:=StringJoin@Map[ToString,list];
 LIndex[Head_,range_]:=Map[MIL[{Head,#}]&,Range[1,range]]
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*$SMaSHFunctions*)
 
 
 (* ::Input::Initialization:: *)
-$SMaSHFunctions={"AddAssumptions","AllIndepedentMandelstam","AllLegs","AllMandelstam","AllMassiveLegs","AllMassiveMomenta","AllMassivePolarizations","AllMasslessFieldStrengths","AllMasslessHelicities","AllMasslessLegs","AllMasslessMomenta","AllMasslessPolarizations","AllMasslessReferenceSpinors","AllMomenta","B","BaseHead","CanonicalizeIndices","CanonicalizeScalars","CanonicalizeSU2LRScalars","CanonicalizeSU2LScalars","CanonicalizeSU2RScalars","CanonicalizeTerms","CartesianCoordinates","ChargeConjugate","CheckOnShell","ClearAssumptions","ClearMomentumConservation","ClearNumerics","COM","ComplexConjugate","ComplexifyNumerics","ComponentForm","ComponentNumerics","ComptonCOMFrame","COMrules","ContractLorMetric","ContractMetric","ContractSU2LGMetric","ContractSU2LMetric","ContractSU2RMetric","ConvertLortoSH","ConvertMettoSH","ConvertMlFStoSH","ConvertMlPoltoSH","ConvertMomtoSH","ConvertMsPoltoSH","Coupling","CPT","DeclareLegs","DeclareMassiveLegs","DeclareMasslessLegs","DeclareMomentumConservation","DecomposetoSU2Basis","Decompose\[Lambda]to\[Chi]","Dirac\[CapitalPsi]","DressMom","DressSH","EditMassiveData","EditMasslessData","epsilon\[Eta]","FGProjector","FGPropagator","FG\[CapitalTheta]","FindBasis","FindContactTerm","g","GenerateNumerics","GI","GI0","GI1","Helicity","HighEnergyLimit","HigherSpinDiff","HigherSpinDiffA","HigherSpinDiffB","HsPol","IfN","IfP","ImposeReality","k","LeftSymm","Leg","LorToMandelstam","m","MandelstamRules","MandelstamtoLor","MandelstamtoSH","ManifestGI","MassConditions","MassConstraints","MassiveData","MassiveMomenta","MassivePolarization","MassiveQ","MasslessData","MasslessFieldStrength","MasslessLegs","MasslessMomenta","MasslessPolarization","MasslessQ","MassNumerics","Met","Metd","Metlg","MI","MIL","MlPol","MlQ","Modp","Mom","momconsRule","Momenta","MomentaNumerics","MsI","MsIndex","MsPol","MsPolNonSymm","NoLGScalar","NoLGScalarWB","NoMassiveLGScalar","NoMassiveLGScalarWB","NoMasslessLGScalar","NoMasslessLGScalarWB","NORM","NormQ","NoScalar","NoSL2CScalar","NoSL2CScalarWB","NoSU2LScalar","NoSU2LScalarWB","NoSU2RScalar","NoSU2RScalarWB","NumericLabels","OpMlHW","OpMsHW","OpMsJ","OPS","p","pMatLower","pMatUpper","PowerContract","Projector","Propagator","PropCoeff","PureGaugeTransformation","PutCanonicalIndices","PutCanonicalOrder","PutLGScalar","PutLGScalarFor","PutMassiveLGScalar","PutMassiveLGScalarFor","PutMasslessCondition","PutMasslessLGScalar","PutMasslessLGScalarFor","PutNumerics","PutOnShell","PutOnShellComponent","PutScalar","PutSL2CScalar","PutSU2LScalar","PutSU2RScalar","pVecLower","pVecUpper","r","RAMBO","RAQ","ReferenceSpinor","RefineAtomQ","RemoveAssumptions","RemoveMassiveData","RemoveMasslessData","RemoveReality","RepeatedRule","ReplaceMomenta","ReplaceSpinors","RightSymm","ScaleMomenta","ScaleMomentum","ScaleSpinors","Seed","SetCanonicalIndices","SetComponentFormAssumption","SetCounterZero","SetDefaultOrdering","SetSameMsIndices","SHA","SHAA","SHAB","SHB","SHBA","SHBB","ShiftMomenta","SHToMandelstam","SimplifyComponentForm","SimplifyPolynomial","SimplifyPolynomialFunction","SimplifySchouten","SignOf","sm","SM","SphericalCoordinates","SplitMassive","SplitMassiveWB","SplitMassless","SplitMasslessWB","SplitSchouten","SplitSchoutenA","SplitSchoutenB","StandardizeExpression","StripPol","StripPolA","StripPolB","SU2LBasis","SU2LGBasis","SU2LGBasisComponent","SU2LGInnerProduct","SU2LInnerProduct","SU2LRInnerProduct","SU2RBasis","SU2RInnerProduct","Swap","Symmetrized","ThreeMasslessAmplitude","TimeReversal","TL","ToBasis","ToEqns","ToList","ToMandelstam","ToMassless","TR","TwoMassiveOneMasslessAmplitude","TwoMasslessOneMassiveAmplitude","UGProjector","UGPropagator","UG\[CapitalTheta]","UndeclareLegs","UndeclareMassiveLegs","UndeclareMasslessLegs","UnSetCanonicalIndices","UnsetComponentFormAssumption","UnSetCounterZero","Xfactor","\[ScriptA]","\[ScriptB]","\[Delta]","\[CapitalDelta]","\[Delta]d","\[Delta]dMat","\[Delta]lg","\[Delta]lgMat","\[Delta]Mat","\[Epsilon]","\[CurlyEpsilon]","\[CapitalEpsilon]","\[Epsilon]d","\[Epsilon]dMat","\[Epsilon]dMatLower","\[Epsilon]dMatUpper","\[Epsilon]lg","\[Epsilon]lgMat","\[Epsilon]lgMatLower","\[Epsilon]lgMatUpper","\[CurlyEpsilon]Lower","\[Epsilon]Mat","\[Epsilon]MatLower","\[Epsilon]MatUpper","\[CurlyEpsilon]Upper","\[ScriptCapitalI]","J","\[Xi]","\[Zeta]","\[Zeta]Lower","\[Zeta]m","\[Zeta]p","\[Zeta]Upper","\[Eta]","\[Eta]Mat","\[Theta]","\[CapitalTheta]","\[CapitalNu]","\[Sigma]","\[CapitalSigma]","\[Sigma]barVecLower","\[Sigma]barVecUpper","\[Sigma]mat","\[Sigma]matRule","\[Sigma]VecLower","\[Sigma]VecUpper","\[Phi]","\[CapitalOmega]","$SMaSHShortcuts","$SMaSHFunctions","$Helicity","$Kinematics","$Mandelstams"};
+$SMaSHFunctions={"AddAssumptions","AllIndepedentMandelstam","AllLegs","AllMandelstam","AllMassiveLegs","AllMassiveMomenta","AllMassivePolarizations","AllMasslessFieldStrengths","AllMasslessHelicities","AllMasslessLegs","AllMasslessMomenta","AllMasslessPolarizations","AllMasslessReferenceSpinors","AllMomenta","B","BaseHead","CanonicalizeIndices","CanonicalizeScalars","CanonicalizeSU2LRScalars","CanonicalizeSU2LScalars","CanonicalizeSU2RScalars","CanonicalizeTerms","CartesianCoordinates","ChargeConjugate","CheckOnShell","ClearAssumptions","ClearMomentumConservation","ClearNumerics","COM","ComplexConjugate","ComplexifyNumerics","ComponentForm","ComponentNumerics","ComptonCOMFrame","COMrules","ContractLorMetric","ContractMetric","ContractPauliMatrix","ContractSU2LGMetric","ContractSU2LMetric","ContractSU2RMetric","ConvertLortoSH","ConvertMettoSH","ConvertMlFStoSH","ConvertMlPoltoSH","ConvertMomtoSH","ConvertMsPoltoSH","Coupling","CPT","DeclareLegs","DeclareMassiveLegs","DeclareMasslessLegs","DeclareMomentumConservation","ToDimensionfullBasis","ToDimensionlessBasis","DimFulltoDimLessBasis","Dirac\[CapitalPsi]","DressMom","DressSH","EditMassiveData","EditMasslessData","epsilon\[Eta]","FGProjector","FGPropagator","FG\[CapitalTheta]","FindBasis","FindContactTerm","g","GenerateNumerics","GI","GI0","GI1","GIQ","Helicity","HighEnergyLimit","HigherSpinDiff","HigherSpinDiffA","HigherSpinDiffB","HsPol","IfN","IfP","ImposeReality","k","LeftSymm","Leg","LorToMandelstam","m","MandelstamRules","MandelstamtoLor","MandelstamtoSH","ManifestGI","MassConditions","MassConstraints","MassiveData","MassiveMomenta","MassivePolarization","MassiveQ","MasslessData","MasslessFieldStrength","MasslessLegs","MasslessMomenta","MasslessPolarization","MasslessQ","MassNumerics","Met","Metd","Metlg","MI","MIL","MlPol","MlQ","Modp","Mom","momconsRule","Momenta","MomentaNumerics","MsI","MsIndex","MsPol","MsPolNonSymm","NoLGScalar","NoLGScalarWB","NoMassiveLGScalar","NoMassiveLGScalarWB","NoMasslessLGScalar","NoMasslessLGScalarWB","NORM","NormQ","NoScalar","NoSL2CScalar","NoSL2CScalarWB","NoSU2LScalar","NoSU2LScalarWB","NoSU2RScalar","NoSU2RScalarWB","NumericLabels","OpMlHW","OpMsHW","OpMsJ","OPS","p","pMatLower","pMatUpper","PowerContract","Projector","Propagator","PropCoeff","PureGaugeTransformation","PutCanonicalIndices","PutCanonicalOrder","PutLGScalar","PutLGScalarFor","PutMassiveLGScalar","PutMassiveLGScalarFor","PutMasslessCondition","PutMasslessLGScalar","PutMasslessLGScalarFor","PutNumerics","PutOnShell","PutOnShellComponent","PutScalar","PutSL2CScalar","PutSU2LScalar","PutSU2RScalar","pVecLower","pVecUpper","r","RAMBO","RAQ","ReferenceSpinor","RefineAtomQ","RemoveAssumptions","RemoveMassiveData","RemoveMasslessData","RemoveReality","RepeatedRule","ReplaceMomenta","ReplaceSpinors","RightSymm","ScaleMomenta","ScaleMomentum","ScaleSpinors","Seed","SetCanonicalIndices","SetComponentFormAssumption","SetCounterZero","SetDefaultOrdering","SetSameMsIndices","SHA","SHAA","SHAB","SHB","SHBA","SHBB","ShiftMomenta","SHToMandelstam","SimplifyComponentForm","SimplifyPolynomial","SimplifyPolynomialFunction","SimplifySchouten","SignOf","sm","SM","SphericalCoordinates","SplitMassive","SplitMassiveWB","SplitMassless","SplitMasslessWB","SplitSchouten","SplitSchoutenA","SplitSchoutenB","StandardizeExpression","StripPol","StripPolA","StripPolB","SU2LBasis","SU2LGBasis","SU2LGBasisComponent","SU2LGInnerProduct","SU2LInnerProduct","SU2LRInnerProduct","SU2RBasis","SU2RInnerProduct","Swap","Symmetrized","ThreeMasslessAmplitude","TimeReversal","TL","ToBasis","ToEqns","ToList","ToMandelstam","ToMassless","TR","TwoMassiveOneMasslessAmplitude","TwoMasslessOneMassiveAmplitude","UGProjector","UGPropagator","UG\[CapitalTheta]","UndeclareLegs","UndeclareMassiveLegs","UndeclareMasslessLegs","UnSetCanonicalIndices","UnsetComponentFormAssumption","UnSetCounterZero","Xfactor","\[ScriptA]","\[ScriptB]","\[Delta]","\[CapitalDelta]","\[Delta]d","\[Delta]dMat","\[Delta]lg","\[Delta]lgMat","\[Delta]Mat","\[Epsilon]","\[CurlyEpsilon]","\[CapitalEpsilon]","\[Epsilon]d","\[Epsilon]dMat","\[Epsilon]dMatLower","\[Epsilon]dMatUpper","\[Epsilon]lg","\[Epsilon]lgMat","\[Epsilon]lgMatLower","\[Epsilon]lgMatUpper","\[CurlyEpsilon]Lower","\[Epsilon]Mat","\[Epsilon]MatLower","\[Epsilon]MatUpper","\[CurlyEpsilon]Upper","\[ScriptCapitalI]","J","\[Xi]","\[Zeta]","\[Zeta]Lower","\[Zeta]m","\[Zeta]p","\[Zeta]Upper","\[Eta]","\[Eta]Mat","\[Theta]","\[CapitalTheta]","\[CapitalNu]","\[Sigma]","\[CapitalSigma]","\[Sigma]barVecLower","\[Sigma]barVecUpper","\[Sigma]mat","\[Sigma]matRule","\[Sigma]VecLower","\[Sigma]VecUpper","\[Phi]","\[CapitalOmega]","$SMaSHShortcuts","$SMaSHFunctions","$Helicity","$Kinematics","$Mandelstams"};
 
 
 (* ::Input::Initialization:: *)
@@ -39,7 +39,7 @@ rightindicesList= Table[MIL[{\[ScriptB],i}],{i,1000}];
 $SMaSHIndices=Join[lgindicesList,leftindicesList,rightindicesList];
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Usage*)
 
 
@@ -82,6 +82,7 @@ ComptonCOMFrame::usage="Writes the center of mass expression for Compton scatter
 COMrules::usage="Gives the center of mass rules for Compton scattering.";
 ContractLorMetric::usage="Contracts the Lorentz spacetime metric.";
 ContractMetric::usage="Contracts all possible metrics.";
+ContractPauliMatrix::usage="Contracts Pauli matrices.";
 ContractSU2LGMetric::usage="Contracts the little group antisymmetric bilinear.";
 ContractSU2LMetric::usage="Contracts the left-handed antisymmetric bilinear.";
 ContractSU2RMetric::usage="Contracts the right-handed antisymmetric bilinear.";
@@ -97,8 +98,9 @@ DeclareMasslessLegs::usage="DeclareMasslessLegs[MlLegs_List] : Declares the MlLe
 DeclareMassiveLegs::usage="DeclareMassiveLegs[MsLegs_List] : Declares the MsLegs as massive. The argument can take a list of numbers or symbols.";
 DeclareLegs::usage="DeclareLegs[MsLegs_List][MlLegs_List] : Declares the MlLegs as massless and MsLegs as massive. The argument can take a list of numbers or symbols.";
 DeclareMomentumConservation::usage="DeclareMomentumConservation[MomentumConservationEquation] : Defines the Mandelstam variables for the given momentum conservation equation. Options: $Mandelstams -> Automatic";
-DecomposetoSU2Basis::usage="DecomposetoSU2Basis[leg] : Decomposes the SH variables for a leg in the SU(2) basis.";
-Decompose\[Lambda]to\[Chi]::usage="Decomposes the SU(2) basis elements \[Lambda] to dimensionless spinors \[Chi].";
+ToDimensionfullBasis::usage="ToDimensionfullBasis[legs] : Decompose all the massive legs into the basis of dimensionfull spinors \[Lambda][leg,p] and \[Lambda][leg,m].";
+ToDimensionlessBasis::usage="ToDimensionlessBasis[leg] : Decomposes all the massive legs into the basis of dimensionless spinors \[Chi][leg,p] and \[Chi][leg,m].";
+DimFulltoDimLessBasis::usage="Decomposes the SU(2) dimensionless basis elements \[Lambda] to dimensionless spinors \[Chi].";
 Differentiate::usage="Differentiate[x][y] : Differentiates the spinor expression y wrt x.";
 Dirac\[CapitalPsi]::usage="Dirac\[CapitalPsi][leg, \[Alpha]] : Gives the four-component Dirac spinor.";
 DressMom::usage="DressMom[Momenta, \[Alpha], \[Beta]] : Places the spinor indices \[Alpha], \[Beta] over the linear combination Momenta.";
@@ -116,8 +118,9 @@ GenerateNumerics::usage="GenerateNumerics[label, MomentumConservationRule] : Gen
 GI::usage="Get Index";
 GI0::usage="";
 GI1::usage="";
+GIQ::usage="GIQ[leg] : When acted on an expression, gives True if the epression is gauge invariant, otherwise gives False."
 Helicity::usage="Helicity[leg] : Gives the helicity for the declared massless leg.";
-HighEnergyLimit::usage="HighEnergyLimit[MassiveLegsList, MasslessLegsList] : Gives the high-energy limit over the list of massive legs with their corresponding list of massless legs at high energies.";
+HighEnergyLimit::usage="HighEnergyLimit[rules_List] : Gives the high-energy limit of the massive legs. The rules are the list of replacement rules for the massive legs with their corresponding massless legs at high energies.";
 HigherSpinDiff::usage="HigherSpinDiff[leg, Spin, SpinIndexB, SpinIndexA] : Takes the derivative with respect to the massive leg of spin Spin and the box & angle spinor index prefixes SpinIndexB and SpinIndexA.";
 HigherSpinDiffA::usage="HigherSpinDiffA[leg, Spin, SpinIndexA] : Takes the derivative with respect to the massive leg of spin Spin and the angle spinor index prefix SpinIndexA.";
 HigherSpinDiffB::usage="HigherSpinDiffB[leg, Spin, SpinIndexB] : Takes the derivative with respect to the massive leg of spin Spin and the box spinor index prefix SpinIndexB.";
@@ -137,9 +140,11 @@ ManifestGI::usage="ManifestGI[ReferenceSpinor -> {MasslessLeg1, MasslessLeg2}] :
 MassConditions::usage="Extracts all terms from an expression that involve at least one mass factor.";
 MassConstraints::usage="Option for GenerateNumerics. The Values are the list of mass constraints. The default value is $Assumptions.";
 MassiveData::usage="Gives the association of the declared massive legs with their kinematic variables.";
+MassiveAssumptions::usage="List of assumptions for all the declared massive legs.";
 MassiveMomenta::usage="MassiveMomenta[leg] : Gives the massive momentum for the massive leg.";
 MassivePolarization::usage="MassivePolarization[leg] : Gives the massive polarization for the massive leg.";
 MassiveQ::usage="Checks whether the variable is massive.";
+MasslessAssumptions::usage="List of assumptions for all the declared massless legs.";
 MasslessData::usage="Gives the association of the declared massless legs with their kinematic variables.";
 MasslessFieldStrength::usage="MasslessFieldStrength[leg] : Gives the massless field strength for the massless leg.";
 MasslessLegs::usage="MasslessLegs[Momenta] : Gives the massless legs for the massless momenta.";
@@ -318,6 +323,8 @@ Xfactor::usage="Xfactor[Mlleg, Msleg, helicity] : Gives the spinor helicity expr
 \[CurlyEpsilon]Upper::usage="\[CurlyEpsilon]Upper[leg][ref, Helicity] : Gives the component form for the massless polarization vector with upper indices.";
 \[ScriptCapitalI]::usage="Little group index prefix";
 J::usage="Massive polarization index prefix";
+\[Lambda]::usage="\[Lambda][leg,sign] : SU(2\!\(\*SubscriptBox[\()\), \(L\)]\) and SU(2\!\(\*SubscriptBox[\()\), \(R\)]\) dimensionfull basis spinor for a leg. sign=p,m denotes the two independent basis spinors \!\(\*SubscriptBox[\(\[Lambda]\), \(+\)]\) and \!\(\*SubscriptBox[\(\[Lambda]\), \(-\)]\). (see documentation)";
+\[Chi]::usage="SU(2\!\(\*SubscriptBox[\()\), \(L\)]\) and SU(2\!\(\*SubscriptBox[\()\), \(R\)]\) dimensionless basis spinor for a leg. sign=p,m denotes the two independent basis spinors \!\(\*SubscriptBox[\(\[Chi]\), \(+\)]\) and \!\(\*SubscriptBox[\(\[Chi]\), \(-\)]\). (see documentation)";
 \[Xi]::usage="Gauge Parameter. Option for Projector and Propagator. The default value is \[Xi].";
 \[Zeta]::usage="Prefix for the massive polarizations.";
 \[Zeta]Lower::usage="\[Zeta]Lower[leg, I, J] : Gives the component form for the polarization matrix with lower indices IJ of a massive leg.";
@@ -334,7 +341,7 @@ J::usage="Massive polarization index prefix";
 \[Sigma]barVecLower::usage="Gives the matrix components of the dual Pauli vector \[Sigma]bar_\[Mu] for a lower spacetime index.";
 \[Sigma]barVecUpper::usage="Gives the matrix components of the dual Pauli vector \[Sigma]bar_\[Mu] for an upper spacetime index.";
 \[Sigma]mat::usage="\[Sigma]mat[\[Mu]][\[Alpha], \[Beta]] : Notation for the Clifford algebra matrix elements. Shortcut: \[Sigma]";
-\[Sigma]matRule::usage="Clifford algebra simplification rules.";
+\[Sigma]matRule::usage="Contracts Pauli matrices.";
 \[Sigma]VecLower::usage="Gives the matrix components of the Pauli vector \[Sigma]_\[Mu] for a lower spacetime index.";
 \[Sigma]VecUpper::usage="Gives the matrix components of the Pauli vector \[Sigma]_\[Mu] for an upper spacetime index.";
 \[Phi]::usage="\[Phi][i] : Azimuthal angle for the i-th leg. Shortcut: \[Phi]";
