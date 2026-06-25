@@ -402,35 +402,40 @@ InterpretationFunction->(RowBox[{"SHBA","[",#1,",",#2,",",#3,"]"}]&)
 ];
 
 
-(* ::Chapter::Closed:: *)
-(*Metric Bilinears*)
+(* ::Chapter:: *)
+(*Bilinears*)
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Met *)
 
 
 (* ::Input::Initialization:: *)
-Met[\[Alpha]_, \[Beta]_] :=
+ep[\[Alpha]_, \[Beta]_] :=
     If[Or[(And[IfP[\[Alpha]], IfP[\[Beta]]]), (And[IfN[\[Alpha]], IfN[\[Beta]]])],
         \[Epsilon][\[Alpha], \[Beta]]
         ,
         \[Delta][\[Alpha], \[Beta]]
     ]
 
-Metd[\[Alpha]_, \[Beta]_] :=
+epd[\[Alpha]_, \[Beta]_] :=
     If[Or[(And[IfP[\[Alpha]], IfP[\[Beta]]]), (And[IfN[\[Alpha]], IfN[\[Beta]]])],
         \[Epsilon]d[\[Alpha], \[Beta]]
         ,
         \[Delta]d[\[Alpha], \[Beta]]
     ]
 
-Metlg[\[Alpha]_, \[Beta]_] :=
+eplg[\[Alpha]_, \[Beta]_] :=
     If[Or[(And[IfP[\[Alpha]], IfP[\[Beta]]]), (And[IfN[\[Alpha]], IfN[\[Beta]]])],
         \[Epsilon]lg[\[Alpha], \[Beta]]
         ,
         \[Delta]lg[\[Alpha], \[Beta]]
     ]
+
+
+Met=ep;
+Metd=epd;
+Metlg=eplg;
 
 
 (* ::Section::Closed:: *)

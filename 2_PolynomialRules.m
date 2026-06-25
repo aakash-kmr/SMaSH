@@ -224,10 +224,13 @@ Protect[\[CapitalSigma],\[CapitalOmega],\[CapitalDelta],SHA,SHB,SHAA,SHBB,SHAB,S
 MetricRules:=Join[SU2LMetricRules,SU2RMetricRules,SU2LGMetricRules,LorMetricRules];
 
 
-ContractMetric[expr_]:=expr//.MetricRules//PutCanonicalOrder;
+ContractBilinears[expr_]:=expr//.MetricRules//PutCanonicalOrder;
 
 
-(* ::Subsection::Closed:: *)
+ContractMetric=ContractBilinears;
+
+
+(* ::Subsection:: *)
 (*Subscript[SU(2), L] Metric Product Rules*)
 
 
@@ -235,7 +238,7 @@ ContractMetric[expr_]:=expr//.MetricRules//PutCanonicalOrder;
 SU2LMetricRules:=Join[
 MakeRulesForExponents[{HF@HP@\[Epsilon][A_,B_],HF@ \[Epsilon][A,B]},{HF@HP@\[Epsilon][C_,D_],HF@ \[Epsilon][C,D]}, HF[-\[Delta][A,C]\[Delta][B,D ]+\[Delta][A,D]\[Delta][B,C ]],HF[And[IfN[A],IfN[B],IfP[C],IfP[D]]]],
 MakeRulesForExponents[{HF@HP@\[Epsilon][A_,B_],HF@ \[Epsilon][A,B]},{HF@\[Delta][OPS[C_,D_]],HF@\[Delta][OPS[C,D]]}, HF@ \[Epsilon][A,D],HF[B+C==0&&!IntegerQ[C]]],
-MakeRulesForExponents[{HF@HP@\[Epsilon][A_,B_],HF@ \[Epsilon][A,B]},{HF@HP@\[Delta][OPS[C_,D_]],HF@\[Delta][OPS[C,D]]},HF@ \[Epsilon][D,B],HF[A+C==0&&!IntegerQ[C]]],
+MakeRulesForExponents[{HF@HP@\[Epsilon][A_,B_],HF@ \[Epsilon][A,B]},{HF@\[Delta][OPS[C_,D_]],HF@\[Delta][OPS[C,D]]},HF@ \[Epsilon][D,B],HF[A+C==0&&!IntegerQ[C]]],
 MakeRulesForExponents[{HF@\[Delta][OPS[A_,B_]],HF@\[Delta][OPS[A,B]]},{HF@\[Delta][OPS[C_,D_]],HF@\[Delta][C,D]},HF@ \[Delta][D,B],HF[A+C==0&&!IntegerQ[C]]],
 {\[Delta][A_, B_]/;(A+B)==0 &&!IntegerQ[SignOf[A]A]:>2 },(*The repeated indices are summed over*)
 
@@ -250,10 +253,11 @@ MakeRulesForExponents[{HF@\[Sigma]mat[\[Mu]_][\[Alpha]_,\[Beta]_],HF@\[Sigma]mat
 MakeRulesForExponents[{HF@\[Sigma]mat[\[Mu]_][\[Alpha]_,\[Beta]_],HF@\[Sigma]mat[\[Mu]][\[Alpha],\[Beta]]},{HF@\[Delta][OPS[\[Gamma]_,\[Delta]1_]],HF@\[Delta][\[Gamma],\[Delta]1]}, HF@  \[Sigma]mat[\[Mu]][\[Gamma],\[Beta]],HF[\[Delta]1+\[Alpha]==0&&!IntegerQ[\[Alpha]]]]
 ];
 
-ContractSU2LMetric[expr_]:=expr//.SU2LMetricRules//Expand;
+ContractLBilinear[expr_]:=expr//.SU2LMetricRules//Expand;
+ContractSU2LMetric=ContractLBilinear;
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Subscript[SU(2), R] Metric Product Rules*)
 
 
@@ -275,10 +279,11 @@ MakeRulesForExponents[{HF@HP@\[Sigma]mat[\[Mu]_][\[Alpha]_,\[Beta]_],HF@\[Sigma]
 MakeRulesForExponents[{HF@HP@\[Sigma]mat[\[Mu]_][\[Alpha]_,\[Beta]_],HF@\[Sigma]mat[\[Mu]][\[Alpha],\[Beta]]},{HF@\[Delta]d[OPS[\[Delta]_,\[Gamma]_]],HF@\[Delta]d[\[Delta],\[Gamma]]}, HF@\[Sigma]mat[\[Mu]][\[Alpha],\[Gamma]],HF[\[Delta]+\[Beta]==0&&!IntegerQ[\[Delta]]]]
 ];
 
-ContractSU2RMetric[expr_]:=expr//.SU2RMetricRules;
+ContractRBilinear[expr_]:=expr//.SU2RMetricRules;
+ContractSU2RMetric=ContractRBilinear;
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Subscript[SU(2), LG] Metric Product Rules*)
 
 
@@ -313,7 +318,8 @@ MakeRulesForExponents[{HF@\[CapitalOmega][i_][OPS[a_,b_]],HF@\[CapitalOmega][i][
 MakeRulesForExponents[{HF@\[CapitalDelta][i_][OPS[a_,b_]],HF@\[CapitalDelta][i][a,b]},{HF@\[CapitalDelta][i_][OPS[c_,d_]],HF@\[CapitalDelta][i][c,d]},HF[-SignOf[d]Metlg[a,d]],HF[b+c==0&&!IntegerQ[c]&&IfP[b]&&IfN[c]]]
 ];
 
-ContractSU2LGMetric[expr_]:=expr//.SU2LGMetricRules;
+ContractLGBilinear[expr_]:=expr//.SU2LGMetricRules;
+ContractSU2LGMetric=ContractLGBilinear;
 
 
 (* ::Subsection::Closed:: *)
@@ -343,7 +349,7 @@ ContractLorMetric[expr_]:=expr//.LorMetricRules;
 ContractPauliMatrix=\[Sigma]matRule;
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*PutSL2CScalar*)
 
 
@@ -356,7 +362,7 @@ PutSU2LScalar[expr_]:=expr//.MakeRulesForExponents[{SHB[i_,A_],SHB[i,A]},{SHB[j_
 PutSL2CScalar[expr_] :=expr //PutSU2RScalar//PutSU2LScalar;
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*PutLGScalarFor*)
 
 
