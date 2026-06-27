@@ -45,4 +45,4 @@ GNU GENERAL PUBLIC LICENSE
  Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
 
  # Note
-Please add an issue in the same repository if you have any suggestion, issue with the code, or push requests. You can also email us at aakash.kumar.physics@gmail.com or rahulshaw.phy@gmail.com or rudra19@iiserb.ac.in
+Please add an issue [here](https://github.com/aakash-kmr/SMaSH/issues) if you have any issue with the code, or you can raise a [pull request](https://github.com/aakash-kmr/SMaSH/pulls) also if you fix anything. For any kind of comments or discussion, please use the [Discussion](https://github.com/aakash-kmr/SMaSH/discussions) section. You can also email us at aakash.kumar.physics@gmail.com or rahulshaw.phy@gmail.com or rudra19@iiserb.ac.in
