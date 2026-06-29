@@ -32,10 +32,10 @@ The package can be installed using any one of the following ways.
 
 
 # Documentation
-
+[arXiv paper](https://arxiv.org/pdf/2606.27928)
 
 # Citation
-
+If any part of this package have been useful to you, please cite us. The citation texts can be downloaded from [inspirehep](https://inspirehep.net/literature/3174196). 
 
 # License
 GNU GENERAL PUBLIC LICENSE
