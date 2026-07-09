@@ -15,7 +15,7 @@ SMaSH (Simplify Massive Spinor Helicity) is a Mathematica package to do massive 
 
 # Recent Updates
 1. Included change of convention for spacetime metric and Clifford algebra. See the info of the commands `Conventions` and `ChangeConventions`.
-2. AutoSave : If the mathematica notebook with SMaSH loaded is running slow, it might be because of the NotebookAutoSave being True. You can change it by running the following command lines in the notebook which saves the notebook after the displaying the output after every Shift-Enter.
+2. AutoSave : If the mathematica notebook with SMaSH loaded is running slow, it might be because of the NotebookAutoSave being True. You can change it by running the following command lines in the notebook which saves the notebook after displaying the output after every Shift-Enter.
 
 `SMaSHDelayedSave[]:=With[{nb = EvaluationNotebook[]},RunScheduledTask[NotebookSave[nb], {10^-11}]];`
 `SetOptions[EvaluationNotebook[], NotebookAutoSave -> False,CellEpilog :> SMaSHDelayedSave[]];`
