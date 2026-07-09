@@ -13,6 +13,9 @@ SMaSH (Simplify Massive Spinor Helicity) is a Mathematica package to do massive 
 8. Mandelstam simplifications
 9. Finding contact terms and manifesting gauge invariance
 
+# Recent Updates
+1. Included change of convention for spacetime metric and Clifford algebra. See the info of the commands "Conventions" and "ChangeConventions".
+
 
 # Download
 https://github.com/aakash-kmr/SMaSH/archive/refs/heads/main.zip

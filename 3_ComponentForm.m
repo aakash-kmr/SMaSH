@@ -13,7 +13,7 @@ ComponentAssumptions[]:=Module[{},Flatten[
 Join[Map[{(m[#]\[Element]Positive),
 List@@(\[CapitalEpsilon][#]\[Element]PositiveReals),
 List@@(Modp[#]\[Element]PositiveReals),
-\[CapitalEpsilon][#]==-p[#][0],
+\[CapitalEpsilon][#]==-MetricConvention p[#][0],
 p[#][0]\[Element] Reals,
 p[#][1]\[Element] Reals,
 p[#][2]\[Element] Reals,
@@ -26,7 +26,7 @@ Map[{
 List@@(\[CapitalEpsilon][#]\[Element]PositiveReals),
 List@@(Modp[#]\[Element]PositiveReals),
 \[CapitalEpsilon][#]==Modp[#],
-\[CapitalEpsilon][#]==-p[#][0],
+\[CapitalEpsilon][#]==-MetricConvention p[#][0],
 p[#][0]\[Element] Reals,
 p[#][1]\[Element] Reals,
 p[#][2]\[Element] Reals,
@@ -87,7 +87,7 @@ Thread[{p[i_][0],p[i_][1],p[i_][2],p[i_][3]}:> {-\[CapitalEpsilon][i],Modp[i] Si
 
 
 CartesianCoordinates[expr_]:=expr//.{
-\[CapitalEpsilon][i_]:> -p[i][0],
+\[CapitalEpsilon][i_]:> -MetricConvention p[i][0],
 p[i_][a_]:> p[i][a],
 \[Theta][i_]:> ArcCos[p[i][3]/Modp[i]],
 \[Phi][i_]:> ArcTan[p[i][2],p[i][1]],
@@ -99,7 +99,7 @@ Modp[i_]:> Sqrt[p[i][1]^2+p[i][2]^2+p[i][3]^2]
 pVecLower[i_]:={p[i][0],p[i][1],p[i][2],p[i][3]};
 
 (*Momentum vector P^\[Mu]*)
-pVecUpper[i_]:={-p[i][0],p[i][1],p[i][2],p[i][3]};
+pVecUpper[i_]:=MetricConvention {-p[i][0],p[i][1],p[i][2],p[i][3]};
 
 
 (*pMatLower and pMatUpper are the most general momentum matrices.*)
@@ -124,7 +124,7 @@ PutMasslessCondition[masslesslegs_List:AllMasslessLegs[]][expr_]:=expr//.{m[i_]/
 SimplifyComponentForm[expr_]:=expr//RepeatedRule[PutOnShellComponent[FullSimplify[PowerContract[FullSimplify[PowerExpand[#]]]]]&]
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Metrics*)
 
 
@@ -154,9 +154,9 @@ SimplifyComponentForm[expr_]:=expr//RepeatedRule[PutOnShellComponent[FullSimplif
 (* ::Input::Initialization:: *)
 (*\[Sigma]bar always has spinor indices in superscript. \[Sigma] always has spinor indices in the subscript.*)
 \[Sigma]VecUpper={IdentityMatrix[2],PauliMatrix[1],PauliMatrix[2],PauliMatrix[3]};(*Subscript[(\[Sigma]^\[Mu]), \[Alpha]\[Beta]] *)
-\[Sigma]VecLower={-IdentityMatrix[2],PauliMatrix[1],PauliMatrix[2],PauliMatrix[3]};(*Subscript[Subscript[\[Sigma], \[Mu]], \[Alpha]\[Beta]]*)
-\[Sigma]barVecUpper={IdentityMatrix[2],-PauliMatrix[1],-PauliMatrix[2],-PauliMatrix[3]}; (* \[Sigma]b^\[Mu]^\[Beta]\[Alpha]*)
-\[Sigma]barVecLower={-IdentityMatrix[2],-PauliMatrix[1],-PauliMatrix[2],-PauliMatrix[3]}; (* Subscript[\[Sigma]b, \[Mu]]^\[Beta]\[Alpha]*)
+\[Sigma]VecLower=MetricConvention{-IdentityMatrix[2],PauliMatrix[1],PauliMatrix[2],PauliMatrix[3]};(*Subscript[Subscript[\[Sigma], \[Mu]], \[Alpha]\[Beta]]*)
+\[Sigma]barVecUpper=MetricConvention (-CliffordConvention){IdentityMatrix[2],-PauliMatrix[1],-PauliMatrix[2],-PauliMatrix[3]}; (* \[Sigma]b^\[Mu]^\[Beta]\[Alpha]*)
+\[Sigma]barVecLower= (-CliffordConvention){-IdentityMatrix[2],-PauliMatrix[1],-PauliMatrix[2],-PauliMatrix[3]}; (* Subscript[\[Sigma]b, \[Mu]]^\[Beta]\[Alpha]*)
 
 
 ApplySHOnShell[expr_]:=(expr//PowerContract)//.{Sqrt[\[CapitalEpsilon][i_]^2-Modp[i_]^2]:>m[i]}

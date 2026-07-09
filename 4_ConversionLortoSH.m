@@ -1,11 +1,31 @@
 (* ::Package:: *)
 
 (* ::Section:: *)
-(*Lorentz to SH Converter New*)
+(*Change Metric and Clifford algebra conventions*)
 
 
 (* ::Input::Initialization:: *)
+MetricConvention:=+1;
+CliffordConvention:=-1;
 
+
+Conventions:={MetricConvention,CliffordConvention};
+
+
+ChangeConventions[metricconvention_:MetricConvention][cliffordconvention_:MetricConvention]/;metricconvention*cliffordconvention==+1:=Module[{},
+Convention::neg="Convention product should be -1 to be consistent with the current choices of Levi-Civita bilinears.";
+Message[Convention::neg]
+]
+
+
+(* ::Input::Initialization:: *)
+ChangeConventions[metricconvention_:MetricConvention][cliffordconvention_:CliffordConvention]/;metricconvention*cliffordconvention==-1:=Module[{},If[metricconvention===MetricConvention,MetricConvention=MetricConvention,MetricConvention=metricconvention];If[cliffordconvention===CliffordConvention,CliffordConvention=CliffordConvention,CliffordConvention=cliffordconvention];
+Conventions:={MetricConvention,CliffordConvention};
+];
+
+
+(* ::Section:: *)
+(*Lorentz to SH Converter New*)
 
 
 PickPosition[X_,a_]:=ToExpression[StringTake[ToString[X],a],StandardForm];
@@ -28,14 +48,14 @@ ConvertMettoSHRules:={
 \[Eta][\[Mu]_,\[Nu]_]:> -2 \[Epsilon][-Lidx[{\[Alpha],MI[\[Eta],\[Mu]]}],-Lidx[{\[Alpha],MI[\[Eta],\[Nu]]}]]\[Epsilon]d[-Ridx[{\[Alpha],MI[\[Eta],\[Mu]]}],-Ridx[{\[Alpha],MI[\[Eta],\[Nu]]}]] \[Sigma]mat[\[Mu]][Lidx[{\[Alpha],MI[\[Eta],\[Mu]]}],Ridx[{\[Alpha],MI[\[Eta],\[Mu]]}]]/2 \[Sigma]mat[\[Nu]][Lidx[{\[Alpha],MI[\[Eta],\[Nu]]}],Ridx[{\[Alpha],MI[\[Eta],\[Nu]]}]]/2,				epsilon\[Eta][\[Mu]_,\[Nu]_,\[Rho]_,\[Sigma]_]:>- iota 4( \[Epsilon][-Lidx[{\[Alpha],MI[e\[Eta],\[Mu]]}],-Lidx[{\[Alpha],MI[e\[Eta],\[Rho]]}]]\[Epsilon][-Lidx[{\[Alpha],MI[e\[Eta],\[Nu]]}],-Lidx[{\[Alpha],MI[e\[Eta],\[Sigma]]}]]\[Epsilon]d[-Ridx[{\[Alpha],MI[e\[Eta],\[Mu]]}],-Ridx[{\[Alpha],MI[e\[Eta],\[Sigma]]}]]\[Epsilon]d[-Ridx[{\[Alpha],MI[e\[Eta],\[Nu]]}],-Ridx[{\[Alpha],MI[e\[Eta],\[Rho]]}]]-\[Epsilon][-Lidx[{\[Alpha],MI[e\[Eta],\[Mu]]}],-Lidx[{\[Alpha],MI[e\[Eta],\[Sigma]]}]]\[Epsilon][-Lidx[{\[Alpha],MI[e\[Eta],\[Nu]]}],-Lidx[{\[Alpha],MI[e\[Eta],\[Rho]]}]]\[Epsilon]d[-Ridx[{\[Alpha],MI[e\[Eta],\[Mu]]}],-Ridx[{\[Alpha],MI[e\[Eta],\[Rho]]}]]\[Epsilon]d[-Ridx[{\[Alpha],MI[e\[Eta],\[Nu]]}],-Ridx[{\[Alpha],MI[e\[Eta],\[Sigma]]}]]) \[Sigma]mat[\[Mu]][Lidx[{\[Alpha],MI[e\[Eta],\[Mu]]}],Ridx[{\[Alpha],MI[e\[Eta],\[Mu]]}]]/2 \[Sigma]mat[\[Nu]][Lidx[{\[Alpha],MI[e\[Eta],\[Nu]]}],Ridx[{\[Alpha],MI[e\[Eta],\[Nu]]}]]/2 \[Sigma]mat[\[Rho]][Lidx[{\[Alpha],MI[e\[Eta],\[Rho]]}],Ridx[{\[Alpha],MI[e\[Eta],\[Rho]]}]]/2 \[Sigma]mat[\[Sigma]][Lidx[{\[Alpha],MI[e\[Eta],\[Sigma]]}],Ridx[{\[Alpha],MI[e\[Eta],\[Sigma]]}]]/2
 }//.iota:> I;
 
-ConvertMomtoSHRules[Legs_:AllLegs[],MomHeads_:AllMomenta[]]:={X_[\[Mu]_]/;MemberQ[MomHeads,X]:>  (-(1/2)\[Sigma]mat[\[Mu]][Lidx[{\[Alpha],MI[X,\[Mu]]}],Ridx[{\[Alpha],MI[X,\[Mu]]}]]Mom[Legs[[Sequence@@First@Flatten@Position[MomHeads,X]]],-Lidx[{\[Alpha], MI[X,\[Mu]]}],-Ridx[{\[Alpha], MI[X,\[Mu]]}]])
+ConvertMomtoSHRules[Legs_:AllLegs[],MomHeads_:AllMomenta[]]:={X_[\[Mu]_]/;MemberQ[MomHeads,X]:>  MetricConvention(-(1/2)\[Sigma]mat[\[Mu]][Lidx[{\[Alpha],MI[X,\[Mu]]}],Ridx[{\[Alpha],MI[X,\[Mu]]}]]Mom[Legs[[Sequence@@First@Flatten@Position[MomHeads,X]]],-Lidx[{\[Alpha], MI[X,\[Mu]]}],-Ridx[{\[Alpha], MI[X,\[Mu]]}]])
 };
 ConvertMsPoltoSHRules[legs_:AllMassiveLegs[],polheads_:AllMassivePolarizations[]]:={
-X_[\[Mu]_]/;MemberQ[polheads,X]:> ( -(1/2)\[Sigma]mat[\[Mu]][Lidx[{\[Alpha],MI[X,\[Mu]]}],Ridx[{\[Beta],MI[X,\[Mu]]}]]MsPol[legs[[Sequence@@First@Flatten@Position[polheads,X]]],-Lidx[{\[Alpha], MI[X,\[Mu]]}],-Ridx[{\[Beta],MI[X,\[Mu]]}],MsIndex[J, MIL[{legs[[Sequence@@First@Flatten@Position[polheads,X]]],1}]],MsIndex[J,MIL[{ legs[[Sequence@@First@Flatten@Position[polheads,X]]],2}]]])
+X_[\[Mu]_]/;MemberQ[polheads,X]:> MetricConvention( -(1/2)\[Sigma]mat[\[Mu]][Lidx[{\[Alpha],MI[X,\[Mu]]}],Ridx[{\[Beta],MI[X,\[Mu]]}]]MsPol[legs[[Sequence@@First@Flatten@Position[polheads,X]]],-Lidx[{\[Alpha], MI[X,\[Mu]]}],-Ridx[{\[Beta],MI[X,\[Mu]]}],MsIndex[J, MIL[{legs[[Sequence@@First@Flatten@Position[polheads,X]]],1}]],MsIndex[J,MIL[{ legs[[Sequence@@First@Flatten@Position[polheads,X]]],2}]]])
 };
 
 ConvertMlPoltoSHRules[legs_:AllMasslessLegs[],polheads_:AllMasslessPolarizations[],hel_:AllMasslessHelicities[],refs_:AllMasslessReferenceSpinors[]]:={
-X_[\[Mu]_]/;MemberQ[polheads,X]:> ( -(1/2)\[Sigma]mat[\[Mu]][Lidx[{\[Alpha],MI[X,\[Mu]]}],Ridx[{\[Alpha],MI[X,\[Mu]]}]]MlPol[legs[[Sequence@@First@Flatten@Position[polheads,X]]],-Lidx[{\[Alpha], MI[X,\[Mu]]}],-Ridx[{\[Alpha], MI[X,\[Mu]]}],hel[[Sequence@@First@Flatten@Position[polheads,X]]],refs[[Sequence@@First@Flatten@Position[polheads,X]]]])
+X_[\[Mu]_]/;MemberQ[polheads,X]:> MetricConvention( -(1/2)\[Sigma]mat[\[Mu]][Lidx[{\[Alpha],MI[X,\[Mu]]}],Ridx[{\[Alpha],MI[X,\[Mu]]}]]MlPol[legs[[Sequence@@First@Flatten@Position[polheads,X]]],-Lidx[{\[Alpha], MI[X,\[Mu]]}],-Ridx[{\[Alpha], MI[X,\[Mu]]}],hel[[Sequence@@First@Flatten@Position[polheads,X]]],refs[[Sequence@@First@Flatten@Position[polheads,X]]]])
 };
 
 ConvertMlFStoSHRules[legs_:AllMasslessLegs[],fsheads_:AllMasslessFieldStrengths[],hel_:AllMasslessHelicities[]]:={

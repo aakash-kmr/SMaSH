@@ -216,7 +216,7 @@ Protect[\[CapitalSigma],\[CapitalOmega],\[CapitalDelta],SHA,SHB,SHAA,SHBB,SHAB,S
 ];
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Contract Metric*)
 
 
@@ -341,8 +341,8 @@ ContractLorMetric[expr_]:=expr//.LorMetricRules;
 
 (* ::Input::Initialization:: *)
 \[Sigma]matRule[expr_]:=expr//.{
-\[Sigma]mat[\[Mu]_][\[Alpha]_,\[Beta]_]\[Sigma]mat[\[Nu]_][\[Gamma]_,\[Rho]_]/;\[Mu]+\[Nu]==0:>-2Met[\[Alpha],\[Gamma]]Metd[\[Beta],\[Rho]], 
-\[Sigma]mat[\[Mu]_][\[Beta]_,\[Alpha]_]\[Sigma]mat[\[Nu]_][\[Delta]_,\[Gamma]_]/;\[Beta]+\[Delta]==0&& \[Alpha]+\[Gamma]==0:>- 2 \[Eta][\[Mu],\[Nu]]
+\[Sigma]mat[\[Mu]_][\[Alpha]_,\[Beta]_]\[Sigma]mat[\[Nu]_][\[Gamma]_,\[Rho]_]/;\[Mu]+\[Nu]==0:>-MetricConvention 2Met[\[Alpha],\[Gamma]]Metd[\[Beta],\[Rho]], 
+\[Sigma]mat[\[Mu]_][\[Beta]_,\[Alpha]_]\[Sigma]mat[\[Nu]_][\[Delta]_,\[Gamma]_]/;\[Beta]+\[Delta]==0&& \[Alpha]+\[Gamma]==0:>-(-CliffordConvention) 2 \[Eta][\[Mu],\[Nu]]
 };
 
 
