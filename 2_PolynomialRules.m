@@ -335,7 +335,7 @@ LorMetricRules:={
 ContractLorMetric[expr_]:=expr//.LorMetricRules;
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*\[Sigma]matRule*)
 
 
@@ -349,7 +349,7 @@ ContractLorMetric[expr_]:=expr//.LorMetricRules;
 ContractPauliMatrix=\[Sigma]matRule;
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*PutSL2CScalar*)
 
 
@@ -362,7 +362,7 @@ PutSU2LScalar[expr_]:=expr//.MakeRulesForExponents[{SHB[i_,A_],SHB[i,A]},{SHB[j_
 PutSL2CScalar[expr_] :=expr //PutSU2RScalar//PutSU2LScalar;
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*PutLGScalarFor*)
 
 
@@ -655,7 +655,7 @@ ApplySchouten[exp_]:=Module[{testrules=GenerateSchoutenRules[exp]},Simplify[exp,
 SimplifySchouten[exp_,opts:OptionsPattern[FullSimplify]]:=FullSimplify[PutCanonicalOrder[exp],opts,TransformationFunctions->{Automatic,ApplySchouten}];
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Onshell*)
 
 
@@ -665,6 +665,8 @@ SHB[i_?MsQ[-L_],\[Alpha]_]SHB[i_?MsQ[L_],\[Beta]_] :> -SignOf[\[Beta]] m[BaseHea
 SHA[i_?MsQ[-L_],\[Alpha]_]SHA[i_?MsQ[L_],\[Beta]_] :> -SignOf[\[Beta]]m[BaseHead@i] Metd[\[Alpha],\[Beta]],
 X_[a_?MsQ[L_],part2_]X_[a_?MsQ[-L_],part3_]/;MemberQ[{SHAA, SHBB},X] :> (-1)^Boole[X===SHBB] m[BaseHead@a]X[part2,part3],
 X_[part2_,a_?MsQ[L_]]X_[part3_,a_?MsQ[-L_]]/;MemberQ[{SHAA, SHBB},X] :> (-1)^Boole[X===SHBB] m[BaseHead@a]X[part2,part3],
+X_[a_?MsQ[L_],part2_]X_[part3_,a_?MsQ[-L_]]/;MemberQ[{SHAA, SHBB},X] :> -(-1)^Boole[X===SHBB] m[BaseHead@a]X[part2,part3],
+X_[part2_,a_?MsQ[L_]]X_[a_?MsQ[-L_],part3_]/;MemberQ[{SHAA, SHBB},X] :>- (-1)^Boole[X===SHBB] m[BaseHead@a]X[part2,part3],
 X_[i_?MsQ[L_],i_?MsQ[J_]]/;MemberQ[{SHAA, SHBB},X] :> (-1)^Boole[X===SHBB] (-1)^HeavisideTheta[SignOf[J]]  m[BaseHead@i]Metlg[L,J],
 SHAB[c_?MsQ[L_],c_?MsQ,a_]:> m[BaseHead@c]SHBB[a,c[L]],
 SHAB[a_,c_?MsQ,c_?MsQ[L_]]:> m[BaseHead@c]SHAA[a,c[L]]
