@@ -646,7 +646,7 @@ DisplayFunction->(SuperscriptBox[SubscriptBox[RowBox[{"(",SubscriptBox["\[Sigma]
 MakeBoxes[Differentiate[X_][expr_],StandardForm|TraditionalForm]:=TemplateBox[{ToBoxes[X],ToBoxes[expr]},"DifferentialOperator",DisplayFunction->(FractionBox[RowBox[{"\[PartialD]",#2}],RowBox[{"\[PartialD]",#1}]]&),InterpretationFunction->(RowBox[{"Differentiate","[",#1,"]","[",#2,"]"}]&)]
 
 
-(* ::Chapter::Closed:: *)
+(* ::Chapter:: *)
 (*Minkowski Product*)
 
 
@@ -654,6 +654,10 @@ MakeBoxes[Differentiate[X_][expr_],StandardForm|TraditionalForm]:=TemplateBox[{T
 MakeBoxes[SP[X_[\[Mu]_]Y_[\[Nu]_]],StandardForm|TraditionalForm]/;\[Mu]+\[Nu]==0:=TemplateBox[{ToBoxes[X],ToBoxes[Y]},"MinkowskiProduct",DisplayFunction->(RowBox[{"(",#1,"\[CenterDot]",#2,")"}]&),InterpretationFunction->(RowBox[{"SP","[",#1,"[","\[Mu]","]",#2,"[","-\[Mu]","]","]"}]&)];
 
 MakeBoxes[SP[X_[a1_]Y_[a2_,a3_]Z_[a4_]],StandardForm|TraditionalForm]/;a1+a2==0&&a3+a4==0:=TemplateBox[{ToBoxes[X],ToBoxes[Y],ToBoxes[Z]},"MinkowskiProduct",DisplayFunction->(RowBox[{"(",#1,"\[CenterDot]",#2,"\[CenterDot]",#3,")"}]&),InterpretationFunction->(RowBox[{"SP","[",#1,"[","\[Mu]","]",#2,"[","-\[Mu]",",","-\[Nu]","]",#3,"[","\[Nu]","]","]"}]&)]
+
+
+(* ::Input::Initialization:: *)
+SP[X_[\[Mu]_]Y_[-\[Mu]_]]/;Not[OrderedQ[{X,Y}]]:=SP[Y[\[Mu]]X[-\[Mu]]]
 
 
 (* ::Chapter::Closed:: *)
