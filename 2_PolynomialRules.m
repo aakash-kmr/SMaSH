@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Default Canonical*)
 
 
@@ -103,7 +103,7 @@ SHAB/:SHAB[i_,TL[a_],b_]:=SHAB[i,a,b]
 SHBA/:SHBA[i_,TL[a_],b_]:=SHBA[i,a,b]
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*CanonicalOrder*)
 
 
@@ -216,7 +216,7 @@ Protect[\[CapitalSigma],\[CapitalOmega],\[CapitalDelta],SHA,SHB,SHAA,SHBB,SHAB,S
 ];
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Contract Metric*)
 
 
@@ -322,11 +322,13 @@ ContractLGBilinear[expr_]:=expr//.SU2LGMetricRules;
 ContractSU2LGMetric=ContractLGBilinear;
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*\[Eta] Metric Product Rules*)
 
 
 LorMetricRules:={
+X_[\[Mu]___,a_,\[Nu]___]\[Eta][OPS[b_,c_]]/;a+b==0&&MemberQ[AllLorTensors[],X]:>X[\[Mu],c,\[Nu]],
+\[Eta][\[Mu]_,\[Nu]_]\[Eta][-\[Mu]_,-\[Nu]_]:>4,
 \[Eta][\[Mu]1_,\[Nu]1_]\[Eta][\[Mu]2_,\[Nu]2_]/;\[Mu]1+\[Mu]2==0&&\[Nu]1+\[Nu]2==0:> 4,
 \[Eta][\[Mu]1___,\[Nu]_,\[Mu]2___]\[Eta][\[Nu]1___,\[Sigma]_,\[Nu]2___]/;\[Nu]+\[Sigma]==0:> \[Eta][\[Mu]1,\[Mu]2,\[Nu]1,\[Nu]2],
 \[Sigma]mat[\[Mu]_][\[Alpha]_,\[Beta]_]\[Eta][\[Rho]_,\[Sigma]_]/;\[Mu]+\[Rho]==0:> \[Sigma]mat[\[Sigma]][\[Alpha],\[Beta]],

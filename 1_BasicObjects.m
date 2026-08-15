@@ -402,11 +402,11 @@ InterpretationFunction->(RowBox[{"SHBA","[",#1,",",#2,",",#3,"]"}]&)
 ];
 
 
-(* ::Chapter:: *)
+(* ::Chapter::Closed:: *)
 (*Bilinears*)
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Met *)
 
 
@@ -564,44 +564,6 @@ MakeBoxes[\[CapitalDelta][i_][I_?IfP,J_?IfN],StandardForm|TraditionalForm]:=Temp
 MakeBoxes[\[CapitalDelta][i_][I_?IfN,J_?IfP],StandardForm|TraditionalForm]:=TemplateBox[{ToBoxes[i],ToBoxes[-I],ToBoxes[J]},"Pauli3",DisplayFunction->(SubscriptBox[SuperscriptBox[RowBox[{"(",SubscriptBox["\[CapitalDelta]",#1],")"}],#3],#2]&),InterpretationFunction->(RowBox[{"\[CapitalDelta]","[",#1,"]","[","-",#2,",",#3,"]"}]&)];
 
 
-(* ::Section::Closed:: *)
-(*Lorentz Metric*)
-
-
-(* ::Input::Initialization:: *)
-MakeBoxes[\[Eta][\[Mu]_,\[Nu]_],StandardForm|TraditionalForm]/;IfP[\[Mu]]&&IfP[\[Nu]]:=TemplateBox[{ToBoxes[\[Mu]],ToBoxes[\[Nu]]},"\[Sigma]matrix",
-DisplayFunction->(SuperscriptBox["\[Eta]",RowBox[{#1,#2}]]&),
-InterpretationFunction->(RowBox[{"\[Eta]","[",#1,",",#2,"]"}]&)
-];
-MakeBoxes[\[Eta][\[Mu]_,\[Nu]_],StandardForm|TraditionalForm]/;IfP[\[Mu]]&&IfN[\[Nu]]:=TemplateBox[{ToBoxes[\[Mu]],ToBoxes[-\[Nu]]},"\[Sigma]matrix",
-DisplayFunction->(SubscriptBox[SuperscriptBox["\[Eta]",#1],#2]&),
-InterpretationFunction->(RowBox[{"\[Eta]","[",#1,",","-",#2,"]"}]&)
-];
-MakeBoxes[\[Eta][\[Mu]_,\[Nu]_],StandardForm|TraditionalForm]/;IfN[\[Mu]]&&IfP[\[Nu]]:=TemplateBox[{ToBoxes[-\[Mu]],ToBoxes[\[Nu]]},"\[Sigma]matrix",
-DisplayFunction->(SuperscriptBox[SubscriptBox["\[Eta]",#1],#2]&),
-InterpretationFunction->(RowBox[{"\[Eta]","[","-",#1,",",#2,"]"}]&)
-];
-MakeBoxes[\[Eta][\[Mu]_,\[Nu]_],StandardForm|TraditionalForm]/;IfN[\[Mu]]&&IfN[\[Nu]]:=TemplateBox[{ToBoxes[-\[Mu]],ToBoxes[-\[Nu]]},"\[Sigma]matrix",
-DisplayFunction->(SubscriptBox["\[Eta]",RowBox[{#1,#2}]]&),
-InterpretationFunction->(RowBox[{"\[Eta]","[","-",#1,",","-",#2,"]"}]&)
-];
-
-
-(* ::Section::Closed:: *)
-(*4D Levi-Cevita*)
-
-
-MakeBoxes[epsilon\[Eta][\[Mu]_,\[Nu]_,\[Rho]_,\[Sigma]_],StandardForm|TraditionalForm]/;IfP[\[Mu]]&&IfP[\[Nu]]&&IfP[\[Rho]]&&IfP[\[Sigma]]:=TemplateBox[{ToBoxes[\[Mu]],ToBoxes[\[Nu]],ToBoxes[\[Rho]],ToBoxes[\[Sigma]]},"\[Sigma]matrix",
-DisplayFunction->(SuperscriptBox["\[Epsilon]\[Eta]",RowBox[{#1,#2,#3,#4}]]&),
-InterpretationFunction->(RowBox[{"epsilon\[Eta]","[",#1,",",#2,",",#3,",",#4,"]"}]&)
-];
-
-MakeBoxes[epsilon\[Eta][\[Mu]_,\[Nu]_,\[Rho]_,\[Sigma]_],StandardForm|TraditionalForm]/;IfN[\[Mu]]&&IfN[\[Nu]]&&IfN[\[Rho]]&&IfN[\[Sigma]]:=TemplateBox[{ToBoxes[-\[Mu]],ToBoxes[-\[Nu]],ToBoxes[-\[Rho]],ToBoxes[-\[Sigma]]},"\[Sigma]matrix",
-DisplayFunction->(SubscriptBox["\[Epsilon]\[Eta]",RowBox[{#1,#2,#3,#4}]]&),
-InterpretationFunction->(RowBox[{"epsilon\[Eta]","[","-",#1,",","-",#2,",","-",#3,",","-",#4,"]"}]&)
-];
-
-
 (* ::Chapter::Closed:: *)
 (*Clifford Algebra*)
 
@@ -647,6 +609,91 @@ MakeBoxes[Differentiate[X_][expr_],StandardForm|TraditionalForm]:=TemplateBox[{T
 
 
 (* ::Chapter:: *)
+(*DefTensor*)
+
+
+(* ::Input::Initialization:: *)
+tensorIndexData[i_]/;IfN[i]:={False,-i};
+tensorIndexData[i_]/;IfP[i]:={True,i};
+
+tensorTemplateBoxes[head_,indices_List,form_]:=Module[{data,signs,magnitudes,HeadBox,indexBoxes,scriptBoxes,inputArguments,inputRow,displayTail,parameters,n,finaltemplatebox},data=tensorIndexData/@indices;
+signs=First/@data;
+magnitudes=Last/@data;
+HeadBox=MakeBoxes[head,form];
+indexBoxes=MakeBoxes[#,form]&/@magnitudes;
+inputArguments=Table[If[signs[[n]],Slot[n],RowBox[{"-",Slot[n]}]],{n,Length[indices]}];
+inputRow=Riffle[inputArguments,","];
+
+scriptBoxes=Table[With[{base=If[n==1,HeadBox,""],rightmargin=If[n==1,-0.1,0],leftMargin=If[n==1,0,-0.18]},AdjustmentBox[If[signs[[n]],SuperscriptBox[base,Slot[n]],SubscriptBox[base,Slot[n]]],BoxMargins->{{leftMargin,rightmargin},{0,0}}]],{n,Length[indices]}];
+
+displayTail=If[indices==={},HeadBox,StyleBox[RowBox[scriptBoxes],ScriptBaselineShifts->{0.4,0.8}]];
+
+finaltemplatebox=With[{args=indexBoxes,base=HeadBox,tail=displayTail,parsedIndices=inputRow},TemplateBox[args,"TensorIndexTemplate",DisplayFunction:>(tail&),InterpretationFunction:>(RowBox[{base,"[",RowBox[parsedIndices],"]"}]&)]
+]
+
+];
+
+
+(* ::Input::Initialization:: *)
+AllLorTensors[]={};
+
+DefTensors[t_Symbol]:=With[{tensor=t},
+tensor/:MakeBoxes[tensor[inds___],form:(StandardForm|TraditionalForm)]:=tensorTemplateBoxes[tensor,{inds},form]; 
+AllLorTensors[]=Append[AllLorTensors[],{tensor}]//Flatten//DeleteDuplicates; t];
+
+DefTensors[tensors_List]:=Map[DefTensors,tensors]//DeleteDuplicates;
+
+
+(* ::Input::Initialization:: *)
+UndefTensors[t_Symbol]:=With[{tensor=t},
+AllLorTensors[]=DeleteElements[AllLorTensors[],{tensor}];
+tensor/:MakeBoxes[tensor[inds___],form:(StandardForm|TraditionalForm)]=.;
+ tensor];
+UndefTensors[tensors_List]:=Map[UndefTensors,tensors]//DeleteDuplicates;
+
+
+(* ::Section::Closed:: *)
+(*Lorentz Metric*)
+
+
+(* ::Input::Initialization:: *)
+MakeBoxes[\[Eta][\[Mu]_,\[Nu]_],StandardForm|TraditionalForm]/;IfP[\[Mu]]&&IfP[\[Nu]]:=TemplateBox[{ToBoxes[\[Mu]],ToBoxes[\[Nu]]},"\[Sigma]matrix",
+DisplayFunction->(SuperscriptBox["\[Eta]",RowBox[{#1,#2}]]&),
+InterpretationFunction->(RowBox[{"\[Eta]","[",#1,",",#2,"]"}]&)
+];
+MakeBoxes[\[Eta][\[Mu]_,\[Nu]_],StandardForm|TraditionalForm]/;IfP[\[Mu]]&&IfN[\[Nu]]:=TemplateBox[{ToBoxes[\[Mu]],ToBoxes[-\[Nu]]},"\[Sigma]matrix",
+DisplayFunction->(SubscriptBox[SuperscriptBox["\[Eta]",#1],#2]&),
+InterpretationFunction->(RowBox[{"\[Eta]","[",#1,",","-",#2,"]"}]&)
+];
+MakeBoxes[\[Eta][\[Mu]_,\[Nu]_],StandardForm|TraditionalForm]/;IfN[\[Mu]]&&IfP[\[Nu]]:=TemplateBox[{ToBoxes[-\[Mu]],ToBoxes[\[Nu]]},"\[Sigma]matrix",
+DisplayFunction->(SuperscriptBox[SubscriptBox["\[Eta]",#1],#2]&),
+InterpretationFunction->(RowBox[{"\[Eta]","[","-",#1,",",#2,"]"}]&)
+];
+MakeBoxes[\[Eta][\[Mu]_,\[Nu]_],StandardForm|TraditionalForm]/;IfN[\[Mu]]&&IfN[\[Nu]]:=TemplateBox[{ToBoxes[-\[Mu]],ToBoxes[-\[Nu]]},"\[Sigma]matrix",
+DisplayFunction->(SubscriptBox["\[Eta]",RowBox[{#1,#2}]]&),
+InterpretationFunction->(RowBox[{"\[Eta]","[","-",#1,",","-",#2,"]"}]&)
+];
+
+
+(* ::Section::Closed:: *)
+(*4D Levi-Cevita*)
+
+
+(*MakeBoxes[epsilon\[Eta][\[Mu]_,\[Nu]_,\[Rho]_,\[Sigma]_],StandardForm|TraditionalForm]/;IfP[\[Mu]]&&IfP[\[Nu]]&&IfP[\[Rho]]&&IfP[\[Sigma]]:=TemplateBox[{ToBoxes[\[Mu]],ToBoxes[\[Nu]],ToBoxes[\[Rho]],ToBoxes[\[Sigma]]},"\[Sigma]matrix",
+DisplayFunction->(SuperscriptBox["\[Epsilon]\[Eta]",RowBox[{#1,#2,#3,#4}]]&),
+InterpretationFunction->(RowBox[{"epsilon\[Eta]","[",#1,",",#2,",",#3,",",#4,"]"}]&)
+];
+
+MakeBoxes[epsilon\[Eta][\[Mu]_,\[Nu]_,\[Rho]_,\[Sigma]_],StandardForm|TraditionalForm]/;IfN[\[Mu]]&&IfN[\[Nu]]&&IfN[\[Rho]]&&IfN[\[Sigma]]:=TemplateBox[{ToBoxes[-\[Mu]],ToBoxes[-\[Nu]],ToBoxes[-\[Rho]],ToBoxes[-\[Sigma]]},"\[Sigma]matrix",
+DisplayFunction->(SubscriptBox["\[Epsilon]\[Eta]",RowBox[{#1,#2,#3,#4}]]&),
+InterpretationFunction->(RowBox[{"epsilon\[Eta]","[","-",#1,",","-",#2,",","-",#3,",","-",#4,"]"}]&)
+];*)
+
+
+DefTensors[{epsilon\[Eta]}]
+
+
+(* ::Chapter::Closed:: *)
 (*Minkowski Product*)
 
 

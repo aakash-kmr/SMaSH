@@ -139,15 +139,15 @@ RepeatedRule[rule_][expr_]:=FixedPoint[rule[Expand[#]]&,expr];
 RepeatedRule[rule_List][expr_]:=FixedPoint[Composition[Sequence@@Join[rule,{Expand}]][#]&,expr];
 
 
-(* ::Chapter::Closed:: *)
+(* ::Chapter:: *)
 (*Kinematics*)
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Declare Massive and Massless*)
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Default Associations*)
 
 
@@ -193,7 +193,7 @@ Leg[mom_]:=Lookup[Reverse/@Join[Normal@MasslessMomentaThread,Normal@MassiveMomen
 Momenta[leg_]:=Lookup[Join[Normal@MasslessMomentaThread,Normal@MassiveMomentaThread],leg]
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Edit Data*)
 
 
@@ -268,7 +268,7 @@ colmn
 ];
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Add and Remove Data*)
 
 
@@ -295,24 +295,28 @@ keys=Keys[data];
 
 (* ::Input::Initialization:: *)
 RemoveMassiveData[Legs_]:=Module[{tildeLegs,values,removabledata,removabletildedata},
+UndefTensors[Map[MassiveMomenta,Legs]];UndefTensors[Map[MassivePolarization,Legs]];
 tildeLegs=Map[TildeLeg,Legs];
 values=Lookup[MassiveData,Legs];
 removabledata=AssociationThread[Legs->values];
 removabletildedata=AssociationThread[tildeLegs->values];
 MassiveData=DeleteElements[MassiveData,Join[removabledata,removabletildedata]];
 EditMassiveData[];
+
 ];
 RemoveMasslessData[Legs_]:=Module[{tildeLegs,values,removabledata,removabletildedata},
+UndefTensors[Map[MasslessMomenta,Legs]];UndefTensors[Map[MasslessPolarization,Legs]];UndefTensors[Map[MasslessFieldStrength,Legs]];
 tildeLegs=Map[TildeLeg,Legs];
 values=Lookup[MasslessData,Legs];
 removabledata=AssociationThread[Legs->values];
 removabletildedata=AssociationThread[tildeLegs->values];
 MasslessData=DeleteElements[MasslessData,Join[removabledata,removabletildedata]];
 EditMasslessData[];
+
 ];
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Declare and Undeclare Legs*)
 
 
@@ -320,13 +324,13 @@ EditMasslessData[];
 DeclareMassiveLegs[Legs_List]:=Module[{values,data},
 	values=Table[{MIL[{k,iterations$}],MIL[{\[Zeta],iterations$}]},{iterations$,Legs}];
 	data=Association[Thread[Legs->values]];
-	AddMassiveData[data]; $Assumptions;
+	AddMassiveData[data]; $Assumptions; DefTensors[Join[AllMassiveMomenta[],AllMassivePolarizations[]]];
 ];
 
 DeclareMasslessLegs[Legs_List]:=Module[{values,data},
 	values=Table[{MIL[{k,iterations$}],MIL[{\[CurlyEpsilon],iterations$}],MIL[{B,iterations$}],1,MIL[{r,iterations$}]},{iterations$,Legs}];
 	data=Association[Thread[Legs->values]];
-AddMasslessData[data];$Assumptions;
+AddMasslessData[data];$Assumptions;DefTensors[Join[AllMasslessMomenta[],AllMasslessPolarizations[],AllMasslessFieldStrengths[]]];
 ];
 DeclareLegs[MassiveLegs_List:{}][MasslessLegs_List:{}]:=(DeclareMassiveLegs[MassiveLegs];DeclareMasslessLegs[MasslessLegs];)
 
@@ -748,7 +752,7 @@ Total@PutLGScalar[PutSL2CScalar[ContractMetric[(Map[#//.makereplacemenets[#]&,ex
 ];
 
 
-(* ::Chapter:: *)
+(* ::Chapter::Closed:: *)
 (*Miscelleneous*)
 
 
