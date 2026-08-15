@@ -21,6 +21,7 @@ SMaSH (Simplify Massive Spinor Helicity) is a Mathematica package to do massive 
 `SetOptions[EvaluationNotebook[], NotebookAutoSave -> False,CellEpilog :> SMaSHDelayedSave[]];`
 
 `Warning` : Do not change anything if you don't know what you are doing.
+3. DefTensors and UndefTensors : These defines and undefines a list of Lorentz tensors of arbitrary rank such that the evaluations are compatible with copy paste, editing and `TexForm`. See the info of the commands `DefTensors` and `UndefTensors`.
 
 
 # Download
