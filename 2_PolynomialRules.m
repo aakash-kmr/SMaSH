@@ -103,7 +103,7 @@ SHAB/:SHAB[i_,TL[a_],b_]:=SHAB[i,a,b]
 SHBA/:SHBA[i_,TL[a_],b_]:=SHBA[i,a,b]
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*CanonicalOrder*)
 
 
@@ -122,9 +122,9 @@ CanonicalOrderRules:={
 \[Epsilon][A_,B_]/;Not[CanonicalOrderedQ[{A,B}]]:>-\[Epsilon][B,A ],
 \[Epsilon]d[A_,B_]/;Not[CanonicalOrderedQ[{A,B}]]:>-\[Epsilon]d[B,A ],
 \[Epsilon]lg[A_,B_]/;Not[CanonicalOrderedQ[{A,B}]]:>-\[Epsilon]lg[B,A ],
-(*\[Delta][A_,B_]/;IfN[A]:>\[Delta][B,A],
+\[Delta][A_,B_]/;IfN[A]:>\[Delta][B,A],
 \[Delta]d[A_,B_]/;IfN[A]:>\[Delta]d[B,A],
-\[Delta]lg[A_,B_]/;IfN[A]:>\[Delta]lg[B,A],*)
+\[Delta]lg[A_,B_]/;IfN[A]:>\[Delta]lg[B,A],
 SHAA[A_,B_]/;Not[CanonicalOrderedQ[{A,B}]]:>-SHAA[B,A ],
 SHBB[A_,B_]/;Not[CanonicalOrderedQ[{A,B}]]:>-SHBB[B,A ],
 
@@ -161,9 +161,9 @@ Unprotect[\[CapitalSigma],\[CapitalOmega],\[CapitalDelta],SHA,SHB,SHAA,SHBB,SHAB
 	\[Epsilon]/:\[Epsilon][A_,B_]/;Not[CanonicalOrderedQ[{A,B}]]:=-\[Epsilon][B,A ];
 	\[Epsilon]d/:\[Epsilon]d[A_,B_]/;Not[CanonicalOrderedQ[{A,B}]]:=-\[Epsilon]d[B,A ];
 	\[Epsilon]lg/:\[Epsilon]lg[A_,B_]/;Not[CanonicalOrderedQ[{A,B}]]:=-\[Epsilon]lg[B,A ];
-(*	\[Delta]/:\[Delta][A_,B_]/;IfN[A]:=\[Delta][B,A];
+	\[Delta]/:\[Delta][A_,B_]/;IfN[A]:=\[Delta][B,A];
 	\[Delta]d/:\[Delta]d[A_,B_]/;IfN[A]:=\[Delta]d[B,A];
-	\[Delta]lg/:\[Delta]lg[A_,B_]/;IfN[A]:=\[Delta]lg[B,A];*)
+	\[Delta]lg/:\[Delta]lg[A_,B_]/;IfN[A]:=\[Delta]lg[B,A];
 	SHAA/:SHAA[A_,B_]/;Not[CanonicalOrderedQ[{A,B}]]:=-SHAA[B,A ];
 	SHBB/:SHBB[A_,B_]/;Not[CanonicalOrderedQ[{A,B}]]:=-SHBB[B,A ];
 	(*Define the rule on the Multiplication operator*)
